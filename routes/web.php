@@ -26,9 +26,8 @@ Route::get('/admin', function () {
 })->name('admin');
 
 Route::get('/user', function () {
-    return view('user');
+    return view('user.index');
 })->name('user');
 
-Route::get('/user/data', function () {
-    return view('user.data');
-})->name('user.data');
+Route::get('/user/data', 'KaryawanController@index')->name('user.data');
+Route::post('user/data/save', 'KaryawanController@store')->name('user.savedata');
