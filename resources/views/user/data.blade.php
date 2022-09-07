@@ -4,6 +4,56 @@
 <div class="container">
     <div class="row justify-content-start">
         <div class="col-md-8">
+            <div class="row" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+                <div class="col col-md-3">
+                    <div class="card">
+                        <div class="card-header">PAS Foto</div>
+                        <div class="card-body">
+                            <img src="{{ asset('img/pp person.jpg') }}" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
+                            <form action="#" method="post" class="mt-2">
+                                <input type="file" name="pasfoto" id="pasfoto" class="form-control">
+                                <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-md-3">
+                    <div class="card">
+                        <div class="card-header">Foto Seluruh Badan</div>
+                        <div class="card-body">
+                            <img src="{{ asset('img/pp person.jpg') }}" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
+                            <form action="#" method="post" class="mt-2">
+                                <input type="file" name="pasfoto" id="pasfoto" class="form-control">
+                                <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-md-3">
+                    <div class="card">
+                        <div class="card-header">Kartu Keluarga ( KK )</div>
+                        <div class="card-body">
+                            <img src="{{ asset('img/pp person.jpg') }}" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
+                            <form action="#" method="post" class="mt-2">
+                                <input type="file" name="pasfoto" id="pasfoto" class="form-control">
+                                <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-md-3">
+                    <div class="card">
+                        <div class="card-header">Kartu Tanda Penduduk ( KTP )</div>
+                        <div class="card-body">
+                            <img src="{{ asset('img/pp person.jpg') }}" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
+                            <form action="#" method="post" class="mt-2">
+                                <input type="file" name="pasfoto" id="pasfoto" class="form-control">
+                                <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card" style="width: 70rem;">
                 <div class="card-header">Identitas Diri</div>
 
@@ -20,7 +70,7 @@
                                 <div class="col col-sm-3">Nama Lengkap</div>
                                 <div class="col col-sm-1">:</div>
                                 <div class="col">
-                                    <input type="text" name="nama" class="form-control" id="nama" 
+                                    <input type="text" name="nama" class="form-control" id="nama"
                                     @if (isset($data[0]->nama_lengkap))
                                     value="{{ $data[0]->nama_lengkap }}"
                                     @else
@@ -82,7 +132,7 @@
                                 <div class="col">
                                     <div class="row" style="margin-bottom:10px">
                                         <div class="col">
-                                            <input type="text" name="tempat" class="form-control" id="tempat" 
+                                            <input type="text" name="tempat" class="form-control" id="tempat"
                                             @if (isset($data[0]->tempat_lahir))
                                                 value="{{ $data[0]->tempat_lahir }}"
                                             @else
@@ -93,7 +143,7 @@
                                             <h2>/</h2>
                                         </div>
                                         <div class="col">
-                                            <input type="date" class="form-control" name="birthday" id="birthday" 
+                                            <input type="date" class="form-control" name="birthday" id="birthday"
                                             @if (isset($data[0]->tanggal_lahir))
                                                 value="{{ $data[0]->tanggal_lahir }}"
                                             @else
