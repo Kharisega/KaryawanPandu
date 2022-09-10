@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __(Auth::user()->name . ' are logged in!') }}
+                    <br>
+                    <a href="{{ route('user.data') }}" class="btn btn-primary">Data User</a>
                 </div>
             </div>
         </div>

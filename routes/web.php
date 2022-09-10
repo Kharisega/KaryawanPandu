@@ -31,3 +31,7 @@ Route::get('/user', function () {
 
 Route::get('/user/data', 'KaryawanController@index')->name('user.data');
 Route::post('user/data/save', 'KaryawanController@store')->name('user.savedata');
+Route::post('user/data/pasfoto/save', 'KaryawanController@pasFoto')->name('user.save.pasfoto');
+Route::post('user/data/fotoserbadan/save', 'KaryawanController@fotoSerBadan')->name('user.save.fotoserbadan');
+Route::post('user/data/fotoktp/save', 'KaryawanController@fotoKTP')->name('user.save.fotoktp');
+Route::post('user/data/fotokk/save', 'KaryawanController@fotoKK')->name('user.save.fotokk');

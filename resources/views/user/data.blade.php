@@ -2,6 +2,16 @@
 
 @section('content')
 <div class="container">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <strong>Maaf</strong> Data yang anda inputkan bermasalah.<br><br>
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
     <div class="row justify-content-start">
         <div class="col-md-8">
             <div class="row" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
@@ -9,9 +19,16 @@
                     <div class="card">
                         <div class="card-header">PAS Foto</div>
                         <div class="card-body">
-                            <img src="{{ asset('img/pp person.jpg') }}" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
-                            <form action="#" method="post" class="mt-2">
-                                <input type="file" name="pasfoto" id="pasfoto" class="form-control">
+                            <img src="
+                            @if(isset($pasfoto))
+                                {{ asset('img/pasFoto/kecil/'. $pasfoto) }}
+                            @else
+                                {{ asset('img/pp person.jpg') }}
+                            @endif
+                            " alt="PAS Foto" class="img-thumbnail rounded mx-auto d-block">
+                            <form action="{{ route('user.save.pasfoto') }}" method="post" class="mt-2" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="image" id="image" class="form-control">
                                 <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
                             </form>
                         </div>
@@ -21,21 +38,14 @@
                     <div class="card">
                         <div class="card-header">Foto Seluruh Badan</div>
                         <div class="card-body">
-                            <img src="{{ asset('img/pp person.jpg') }}" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
-                            <form action="#" method="post" class="mt-2">
-                                <input type="file" name="pasfoto" id="pasfoto" class="form-control">
-                                <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col col-md-3">
-                    <div class="card">
-                        <div class="card-header">Kartu Keluarga ( KK )</div>
-                        <div class="card-body">
-                            <img src="{{ asset('img/pp person.jpg') }}" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
-                            <form action="#" method="post" class="mt-2">
-                                <input type="file" name="pasfoto" id="pasfoto" class="form-control">
+                            <img src="@if(isset($fotoserbadan))
+                            {{ asset('img/fotoserbadan/kecil/'. $fotoserbadan) }}
+                        @else
+                            {{ asset('img/pp person.jpg') }}
+                        @endif" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
+                            <form action="{{ route('user.save.fotoserbadan') }}" method="post" class="mt-2" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="image" id="image" class="form-control">
                                 <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
                             </form>
                         </div>
@@ -45,9 +55,31 @@
                     <div class="card">
                         <div class="card-header">Kartu Tanda Penduduk ( KTP )</div>
                         <div class="card-body">
-                            <img src="{{ asset('img/pp person.jpg') }}" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
-                            <form action="#" method="post" class="mt-2">
-                                <input type="file" name="pasfoto" id="pasfoto" class="form-control">
+                            <img src="@if(isset($fotoktp))
+                            {{ asset('img/fotoktp/kecil/'. $fotoktp) }}
+                        @else
+                            {{ asset('img/pp person.jpg') }}
+                        @endif" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
+                            <form action="{{ route('user.save.fotoktp') }}" method="post" class="mt-2" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="image" id="image" class="form-control">
+                                <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-md-3">
+                    <div class="card">
+                        <div class="card-header">Kartu Keluarga ( KK )</div>
+                        <div class="card-body">
+                            <img src="@if(isset($fotokk))
+                            {{ asset('img/fotokk/kecil/'. $fotokk) }}
+                        @else
+                            {{ asset('img/pp person.jpg') }}
+                        @endif" alt="PAS Foto" class="rounded mx-auto d-block img-thumbnail">
+                            <form action="{{ route('user.save.fotokk') }}" method="post" class="mt-2" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="image" id="image" class="form-control">
                                 <center><button type="submit" class="btn btn-primary mt-2">Simpan</button></center>
                             </form>
                         </div>
@@ -70,8 +102,7 @@
                                 <div class="col col-sm-3">Nama Lengkap</div>
                                 <div class="col col-sm-1">:</div>
                                 <div class="col">
-                                    <input type="text" name="nama" class="form-control" id="nama"
-                                    @if (isset($data[0]->nama_lengkap))
+                                    <input type="text" name="nama" class="form-control" id="nama" @if (isset($data[0]->nama_lengkap))
                                     value="{{ $data[0]->nama_lengkap }}"
                                     @else
                                     value="{{ Auth::user()->name }}"
@@ -132,22 +163,20 @@
                                 <div class="col">
                                     <div class="row" style="margin-bottom:10px">
                                         <div class="col">
-                                            <input type="text" name="tempat" class="form-control" id="tempat"
-                                            @if (isset($data[0]->tempat_lahir))
-                                                value="{{ $data[0]->tempat_lahir }}"
+                                            <input type="text" name="tempat" class="form-control" id="tempat" @if (isset($data[0]->tempat_lahir))
+                                            value="{{ $data[0]->tempat_lahir }}"
                                             @else
-                                                value=""
+                                            value=""
                                             @endif>
                                         </div>
                                         <div class="col col-sm-1">
                                             <h2>/</h2>
                                         </div>
                                         <div class="col">
-                                            <input type="date" class="form-control" name="birthday" id="birthday"
-                                            @if (isset($data[0]->tanggal_lahir))
-                                                value="{{ $data[0]->tanggal_lahir }}"
+                                            <input type="date" class="form-control" name="birthday" id="birthday" @if (isset($data[0]->tanggal_lahir))
+                                            value="{{ $data[0]->tanggal_lahir }}"
                                             @else
-                                                value=""
+                                            value=""
                                             @endif>
                                         </div>
                                     </div>
@@ -159,22 +188,20 @@
                                 <div class="col">
                                     <div class="row" style="margin-bottom:10px">
                                         <div class="col">
-                                            <input type="text" name="no.ktp" class="form-control" id="no.ktp"
-                                            @if (isset($data[0]->no_ktp))
-                                                value="{{ $data[0]->no_ktp }}"
+                                            <input type="text" name="no.ktp" class="form-control" id="no.ktp" @if (isset($data[0]->no_ktp))
+                                            value="{{ $data[0]->no_ktp }}"
                                             @else
-                                                value=""
+                                            value=""
                                             @endif>
                                         </div>
                                         <div class="col col-sm-3">
                                             <h5 style="padding-top: 8px">Sampai dengan</h5>
                                         </div>
                                         <div class="col">
-                                            <input type="text" class="form-control" name="sampaiktp" id="sampaiktp"
-                                            @if (isset($data[0]->ktp_sampaidgn))
-                                                value="{{ $data[0]->ktp_sampaidgn }}"
+                                            <input type="text" class="form-control" name="sampaiktp" id="sampaiktp" @if (isset($data[0]->ktp_sampaidgn))
+                                            value="{{ $data[0]->ktp_sampaidgn }}"
                                             @else
-                                                value=""
+                                            value=""
                                             @endif>
                                         </div>
                                     </div>
@@ -206,32 +233,29 @@
                                 <div class="col col-sm-3">Nomor Telepon</div>
                                 <div class="col col-sm-1">:</div>
                                 <div class="col">
-                                    <input type="text" name="notelp" class="form-control" id="notelp"
-                                    @if (isset($data[0]->no_telp))
-                                                value="{{ $data[0]->no_telp }}"
-                                            @else
-                                                value=""
-                                            @endif>
+                                    <input type="text" name="notelp" class="form-control" id="notelp" @if (isset($data[0]->no_telp))
+                                    value="{{ $data[0]->no_telp }}"
+                                    @else
+                                    value=""
+                                    @endif>
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom:10px">
                                 <div class="col col-sm-3">Nomor Handphone</div>
                                 <div class="col col-sm-1">:</div>
                                 <div class="col">
-                                    <input type="text" name="nohp" class="form-control" id="nohp"
-                                    @if (isset($data[0]->no_handphone))
-                                                value="{{ $data[0]->no_handphone }}"
-                                            @else
-                                                value=""
-                                            @endif>
+                                    <input type="text" name="nohp" class="form-control" id="nohp" @if (isset($data[0]->no_handphone))
+                                    value="{{ $data[0]->no_handphone }}"
+                                    @else
+                                    value=""
+                                    @endif>
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom:10px">
                                 <div class="col col-sm-3">E-Mail</div>
                                 <div class="col col-sm-1">:</div>
                                 <div class="col">
-                                    <input type="email" name="email" class="form-control" id="email"
-                                    @if (isset($data[0]->email))
+                                    <input type="email" name="email" class="form-control" id="email" @if (isset($data[0]->email))
                                     value="{{ $data[0]->email }}"
                                     @else
                                     value="{{ Auth::user()->email }}"
@@ -295,11 +319,99 @@
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Keluarga & Lingkungan</div>
 
                 <div class="card-body">
-
+                    <div class="col">
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Status Pernikahan</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <select name="status" id="status" class="form-control">
+                                    <option value="lajang">Lajang</option>
+                                    <option value="menikah">Menikah, tanggal</option>
+                                    <option value="duda">Duda</option>
+                                    <option value="janda">Janda</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Nama Suami/Istri</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <input type="text" name="nama_pasangan" id="nama_pasangan" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Tempat, Tanggal lahir</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <input type="text" name="ttl" id="ttl" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Agama</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <select name="agama" id="agama" class="form-control">
+                                    <option value="#" @if (!isset($data[0]->agama))selected @endif>Pilih salah satu</option>
+                                    <option value="kristen" @if (isset($data[0]->agama) && $data[0]->agama == 'kristen')selected @endif>Kristen</option>
+                                    <option value="katolik" @if (isset($data[0]->agama) && $data[0]->agama == 'katolik')selected @endif>Katolik</option>
+                                    <option value="hindu" @if (isset($data[0]->agama) && $data[0]->agama == 'hindu')selected @endif>Hindu</option>
+                                    <option value="budha" @if (isset($data[0]->agama) && $data[0]->agama == 'budha')selected @endif>Budha</option>
+                                    <option value="islam" @if (isset($data[0]->agama) && $data[0]->agama == 'islam')selected @endif>Islam</option>
+                                    <option value="konghucu" @if (isset($data[0]->agama) && $data[0]->agama == 'konghucu')selected @endif>Konghucu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Kewarganegaraan</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <input type="text" name="kewarganegaraan" id="kewarganegaraan" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">
+                                <select name="ketpasangan" style="width: 145px; float:left;" id="ketpasangan" class="form-control">
+                                    <option value="bercerai">Bercerai</option>
+                                    <option value="meninggal">Meninggal</option>
+                                </select> <div style="float: left;padding-top: 6px;padding-left: 10px;font-size: 16px;"> tanggal</div></div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <input type="text" name="pisahtanggal" id="pisahtanggal" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Pendidikan Terakhir</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <input type="text" name="pendidikan" id="pendidikan" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Pekerjaan</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <input type="text" name="pekerjaan" id="pekerjaan" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Jabatan</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <input type="text" name="jabatan" id="jabatan" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:10px">
+                            <div class="col col-sm-3">Alamat Tempat Bekerja</div>
+                            <div class="col col-sm-1">:</div>
+                            <div class="col">
+                                <input type="text" name="alamat" id="alamat" class="form-control">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <br>
