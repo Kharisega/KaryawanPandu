@@ -30,8 +30,11 @@ Route::get('/user', function () {
 })->name('user');
 
 Route::get('/user/data', 'KaryawanController@index')->name('user.data');
-Route::post('user/data/save', 'KaryawanController@store')->name('user.savedata');
 Route::post('user/data/pasfoto/save', 'KaryawanController@pasFoto')->name('user.save.pasfoto');
 Route::post('user/data/fotoserbadan/save', 'KaryawanController@fotoSerBadan')->name('user.save.fotoserbadan');
 Route::post('user/data/fotoktp/save', 'KaryawanController@fotoKTP')->name('user.save.fotoktp');
 Route::post('user/data/fotokk/save', 'KaryawanController@fotoKK')->name('user.save.fotokk');
+Route::post('user/data/save', 'KaryawanController@store')->name('user.savedata');
+Route::post('user/data/keluarga/save', 'KaryawanController@inputKeluargaLingkungan')->name('user.savedatakeluarga');
+Route::post('user/data/anak/save', 'KaryawanController@anak')->name('user.savedataanak');
+Route::post('user/data/suskel/save', 'KaryawanController@susunanKeluarga')->name('user.savedatasusunankel');

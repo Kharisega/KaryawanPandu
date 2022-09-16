@@ -21,18 +21,24 @@ class KaryawanController extends Controller
     public function index()
     {
         $data = DB::table('identitas_diri')->where('nama_lengkap', auth()->user()->name)->get();
+        $keluarga = DB::table('table_keluarga_lingkungan')->where('nama_karyawan', auth()->user()->name)->get();
+        $anak = DB::table('table_anak')->where('nama_karyawan', auth()->user()->name)->get();
+        $susunan_keluarga = DB::table('table_susunan_keluarga')->where('nama_karyawan', auth()->user()->name)->get();
         $pasfoto = DB::table('table_pasfoto')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotoserbadan = DB::table('table_foto_set_badan')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotoktp = DB::table('table_fotoktp')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotokk = DB::table('table_fotokk')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
-        // dd($pasfoto);
+        // dd($susunan_keluarga);
 
         return view('user.data', [
             'data' => $data,
+            'keluarga' => $keluarga,
             'pasfoto' => $pasfoto,
             'fotoserbadan' => $fotoserbadan,
             'fotoktp' => $fotoktp,
             'fotokk' => $fotokk,
+            'anak' => $anak,
+            'suskel' => $susunan_keluarga,
         ]);
     }
 
@@ -250,9 +256,93 @@ class KaryawanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function inputKeluargaLingkungan(Request $request)
     {
-        //
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+
+        $datainsert1 = [
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'status' => $request->status,
+            'tgl_nikah' => $request->tanggalNikah,
+            'nama_pasangan' => $request->nama_pasangan,
+            'tempat_lahir' => $request->tempat,
+            'tanggal_lahir' => $request->birthday,
+            'agama' => $request->agama,
+            'kewarganegaraan' => $request->kewarganegaraan,
+            'ketnikah' => $request->ketpasangan,
+            'tanggalket' => $request->pisahtanggal,
+            'pendterakhir' => $request->pendidikan,
+            'pekerjaan' => $request->pekerjaan,
+            'jabatan' => $request->jabatan,
+            'alamatkerja' => $request->alamatkerja,
+        ];
+
+        $check = DB::table('table_keluarga_lingkungan')->where('nama_karyawan', $nama_karyawan)->get();
+        if (count($check) == 0) {
+            $insert1 = DB::table('table_keluarga_lingkungan')->insert($datainsert1);
+        } else {
+            $insert1 = DB::table('table_keluarga_lingkungan')->where('nama_karyawan', $nama_karyawan)->update($datainsert1);
+        }
+
+        return redirect()->back();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function anak(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+        // dd($request->namaawal);
+        $data = [
+        'id_karyawan' => $id_karyawan,
+        'nama_karyawan' => $nama_karyawan,
+        'nama_anak' => $request->nama_anak,
+        'gender' => $request->gender,
+        'tempatlahir' => $request->tempatlahir,
+        'tanggallahir' => $request->tanggallahir,
+        'pendterakhir' => $request->pendterakhir,
+        'pekerjaan' => $request->pekerjaan,
+        ];
+
+        if ($request->keterangan == 'tambah') {
+            $insert1 = DB::table('table_anak')->insert($data);
+        } else {
+            $insert1 = DB::table('table_anak')->where('nama_karyawan', $nama_karyawan)->where('nama_anak', $request->namaawal)->update($data);
+        }
+
+        return redirect()->back();
+    }
+
+    public function susunanKeluarga(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+        // dd($request->namaawal);
+        $data = [
+        'id_karyawan' => $id_karyawan,
+        'nama_karyawan' => $nama_karyawan,
+        'nama' => $request->nama,
+        'hubungan' => $request->hubungan,
+        'tempatlahir' => $request->tempatlahir,
+        'tanggallahir' => $request->tanggallahir,
+        'pendterakhir' => $request->pendterakhir,
+        'pekerjaan' => $request->pekerjaan,
+        ];
+
+        if ($request->keterangan == 'tambah') {
+            $insert1 = DB::table('table_susunan_keluarga')->insert($data);
+        } else {
+            $insert1 = DB::table('table_susunan_keluarga')->where('nama_karyawan', $nama_karyawan)->where('nama', $request->namaawal)->update($data);
+        }
+
+        return redirect()->back();
     }
 
     /**

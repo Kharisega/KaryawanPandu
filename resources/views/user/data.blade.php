@@ -321,157 +321,542 @@
             <br>
             <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Keluarga & Lingkungan</div>
-
                 <div class="card-body">
                     <div class="col">
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Status Pernikahan</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <select name="status" id="status" class="form-control">
-                                    <option value="lajang">Lajang</option>
-                                    <option value="menikah">Menikah, tanggal</option>
-                                    <option value="duda">Duda</option>
-                                    <option value="janda">Janda</option>
-                                </select>
+                        <form action="{{ route('user.savedatakeluarga') }}" method="POST">
+                            @csrf
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">Status Pernikahan</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            <select name="status" id="status2" class="form-control">
+                                                <option value="#" @if (!isset($keluarga[0]->status))selected @endif>Pilih salah satu</option>
+                                                <option value="lajang" @if (isset($keluarga[0]->status) && $keluarga[0]->status == 'lajang')selected @endif>Lajang</option>
+                                                <option value="menikah" @if (isset($keluarga[0]->status) && $keluarga[0]->status == 'menikah')selected @endif>Menikah</option>
+                                                <option value="duda" @if (isset($keluarga[0]->status) && $keluarga[0]->status == 'duda')selected @endif>Duda</option>
+                                                <option value="janda" @if (isset($keluarga[0]->status) && $keluarga[0]->status == 'janda')selected @endif>Janda</option>
+                                            </select>
+                                        </div>
+                                        <div class="col" id="tglnikah" style="display: none;">
+                                            <div class="row">
+                                                <div class="col col-sm-3 pt-2">
+                                                    <label for="tanggalNikah">Tanggal :</label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="date" id="tanggalNikah" name="tanggalNikah" class="form-control" @if (isset($keluarga[0]->tgl_nikah))
+                                                    value="{{ $keluarga[0]->tgl_nikah }}"
+                                                    @else
+                                                    value=""
+                                                    @endif>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Nama Suami/Istri</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <input type="text" name="nama_pasangan" id="nama_pasangan" class="form-control">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">Nama Suami/Istri</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <input type="text" name="nama_pasangan" id="nama_pasangan" class="form-control" @if (isset($keluarga[0]->nama_pasangan))
+                                    value="{{ $keluarga[0]->nama_pasangan }}"
+                                    @else
+                                    value=""
+                                    @endif>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Tempat, Tanggal lahir</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <input type="text" name="ttl" id="ttl" class="form-control">
+                            <div class="row">
+                                <div class="col col-sm-3">Tempat, Tanggal lahir</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <div class="row" style="margin-bottom:10px">
+                                        <div class="col">
+                                            <input type="text" name="tempat" class="form-control" id="tempat" @if (isset($keluarga[0]->tempat_lahir))
+                                            value="{{ $keluarga[0]->tempat_lahir }}"
+                                            @else
+                                            value=""
+                                            @endif>
+                                        </div>
+                                        <div class="col col-sm-1">
+                                            <h2>/</h2>
+                                        </div>
+                                        <div class="col">
+                                            <input type="date" class="form-control" name="birthday" id="birthday" @if (isset($keluarga[0]->tanggal_lahir))
+                                            value="{{ $keluarga[0]->tanggal_lahir }}"
+                                            @else
+                                            value=""
+                                            @endif>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Agama</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <select name="agama" id="agama" class="form-control">
-                                    <option value="#" @if (!isset($data[0]->agama))selected @endif>Pilih salah satu</option>
-                                    <option value="kristen" @if (isset($data[0]->agama) && $data[0]->agama == 'kristen')selected @endif>Kristen</option>
-                                    <option value="katolik" @if (isset($data[0]->agama) && $data[0]->agama == 'katolik')selected @endif>Katolik</option>
-                                    <option value="hindu" @if (isset($data[0]->agama) && $data[0]->agama == 'hindu')selected @endif>Hindu</option>
-                                    <option value="budha" @if (isset($data[0]->agama) && $data[0]->agama == 'budha')selected @endif>Budha</option>
-                                    <option value="islam" @if (isset($data[0]->agama) && $data[0]->agama == 'islam')selected @endif>Islam</option>
-                                    <option value="konghucu" @if (isset($data[0]->agama) && $data[0]->agama == 'konghucu')selected @endif>Konghucu</option>
-                                </select>
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">Agama</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <select name="agama" id="agama" class="form-control">
+                                        <option value="#" @if (!isset($keluarga[0]->agama))selected @endif>Pilih salah satu</option>
+                                        <option value="kristen" @if (isset($keluarga[0]->agama) && $keluarga[0]->agama == 'kristen')selected @endif>Kristen</option>
+                                        <option value="katolik" @if (isset($keluarga[0]->agama) && $keluarga[0]->agama == 'katolik')selected @endif>Katolik</option>
+                                        <option value="hindu" @if (isset($keluarga[0]->agama) && $keluarga[0]->agama == 'hindu')selected @endif>Hindu</option>
+                                        <option value="budha" @if (isset($keluarga[0]->agama) && $keluarga[0]->agama == 'budha')selected @endif>Budha</option>
+                                        <option value="islam" @if (isset($keluarga[0]->agama) && $keluarga[0]->agama == 'islam')selected @endif>Islam</option>
+                                        <option value="konghucu" @if (isset($keluarga[0]->agama) && $keluarga[0]->agama == 'konghucu')selected @endif>Konghucu</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Kewarganegaraan</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <input type="text" name="kewarganegaraan" id="kewarganegaraan" class="form-control">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">Kewarganegaraan</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <input type="text" name="kewarganegaraan" id="kewarganegaraan" class="form-control" @if (isset($keluarga[0]->kewarganegaraan))
+                                    value="{{ $keluarga[0]->kewarganegaraan }}"
+                                    @else
+                                    value=""
+                                    @endif>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">
-                                <select name="ketpasangan" style="width: 145px; float:left;" id="ketpasangan" class="form-control">
-                                    <option value="bercerai">Bercerai</option>
-                                    <option value="meninggal">Meninggal</option>
-                                </select> <div style="float: left;padding-top: 6px;padding-left: 10px;font-size: 16px;"> tanggal</div></div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <input type="text" name="pisahtanggal" id="pisahtanggal" class="form-control">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">
+                                    <select name="ketpasangan" style="width: 145px; float:left;" id="ketpasangan" class="form-control">
+                                        <option value="bercerai" @if (isset($keluarga[0]->ketnikah) && $keluarga[0]->ketnikah == 'berecerai')selected @endif>Bercerai</option>
+                                        <option value="meninggal" @if (isset($keluarga[0]->ketnikah) && $keluarga[0]->ketnikah == 'meninggal')selected @endif>Meninggal</option>
+                                    </select>
+                                    <div style="float: left;padding-top: 6px;padding-left: 10px;font-size: 16px;"> tanggal</div>
+                                </div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <input type="date" class="form-control" name="pisahtanggal" id="pisahtanggal" @if (isset($keluarga[0]->tanggalket))
+                                    value="{{ $keluarga[0]->tanggalket }}"
+                                    @else
+                                    value=""
+                                    @endif>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Pendidikan Terakhir</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <input type="text" name="pendidikan" id="pendidikan" class="form-control">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">Pendidikan Terakhir</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <input type="text" name="pendidikan" id="pendidikan" class="form-control" @if (isset($keluarga[0]->pendterakhir))
+                                    value="{{ $keluarga[0]->pendterakhir }}"
+                                    @else
+                                    value=""
+                                    @endif>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Pekerjaan</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <input type="text" name="pekerjaan" id="pekerjaan" class="form-control">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">Pekerjaan</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <input type="text" name="pekerjaan" id="pekerjaan" class="form-control" @if (isset($keluarga[0]->pekerjaan))
+                                    value="{{ $keluarga[0]->pekerjaan }}"
+                                    @else
+                                    value=""
+                                    @endif>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Jabatan</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <input type="text" name="jabatan" id="jabatan" class="form-control">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">Jabatan</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <input type="text" name="jabatan" id="jabatan" class="form-control" @if (isset($keluarga[0]->jabatan))
+                                    value="{{ $keluarga[0]->jabatan }}"
+                                    @else
+                                    value=""
+                                    @endif>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row" style="margin-bottom:10px">
-                            <div class="col col-sm-3">Alamat Tempat Bekerja</div>
-                            <div class="col col-sm-1">:</div>
-                            <div class="col">
-                                <input type="text" name="alamat" id="alamat" class="form-control">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col col-sm-3">Alamat Tempat Bekerja</div>
+                                <div class="col col-sm-1">:</div>
+                                <div class="col">
+                                    <input type="text" name="alamatkerja" id="alamatkerja" class="form-control" @if (isset($keluarga[0]->alamatkerja))
+                                    value="{{ $keluarga[0]->alamatkerja }}"
+                                    @else
+                                    value=""
+                                    @endif>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row d-flex justify-content-end" style="margin-bottom: 10px;">
+                                <button type="submit" class="btn btn-success btn-lg">Simpan</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Anak</div>
 
                 <div class="card-body">
-
+                    <table class="table table-light table-bordered table-striped">
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama Anak</th>
+                            <th>L/P</th>
+                            <th>Tempat, Tanggal Lahir</th>
+                            <th>Pendidikan Terakhir</th>
+                            <th>Pekerjaan</th>
+                            <th>Aksi</th>
+                        </tr>
+                        @foreach ($anak as $key => $anakk)
+                        <tr>
+                            <form action="{{ route('user.savedataanak') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="keterangan" value="ubah">
+                                <input type="hidden" name="namaawal" value="{{ $anakk->nama_anak }}">
+                                <td>{{ $key+1 }}</td>
+                                <td><input type="text" name="nama_anak" id="nama_anak" value="{{ $anakk->nama_anak }}" class="form-control"></td>
+                                <td>
+                                    <select name="gender" id="gender" class="form-control">
+                                        <option value="#" @if ($anakk->gender == '#')selected @endif>- Pilih -</option>
+                                        <option value="P" @if ($anakk->gender == 'P')selected @endif>Perempuan</option>
+                                        <option value="L" @if ($anakk->gender == 'L')selected @endif>Laki-laki</option>
+                                    </select>
+                                    {{-- <input type="text" name="gender" id="gender" value="{{ $anakk->gender }}" class="form-control"></td> --}}
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="text" name="tempatlahir" id="tempatlahir" value="{{ $anakk->tempatlahir }}" class="form-control">
+                                        </div>
+                                        <div class="col">
+                                            <input type="date" name="tanggallahir" id="tanggallahir" value="{{ $anakk->tanggallahir }}" class="form-control">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><input type="text" name="pendterakhir" id="pendterakhir" value="{{ $anakk->pendterakhir }}" class="form-control"></td>
+                                <td>
+                                    <input type="text" name="pekerjaan" id="pekerjaan" value="{{ $anakk->pekerjaan }}" class="form-control">
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-block btn-warning">Ubah</button>
+                                </td>
+                            </form>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <form action="{{ route('user.savedataanak') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="keterangan" value="tambah">
+                                <td></td>
+                                <td><input type="text" name="nama_anak" id="nama_anak" class="form-control"></td>
+                                <td>
+                                    <select name="gender" id="gender" class="form-control">
+                                        <option value="#" selected>-Pilih-</option>
+                                        <option value="P">Perempuan</option>
+                                        <option value="L">Laki-laki</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="text" name="tempatlahir" id="tempatlahir" class="form-control">
+                                        </div>
+                                        <div class="col">
+                                            <input type="date" name="tanggallahir" id="tanggallahir" class="form-control">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><input type="text" name="pendterakhir" id="pendterakhir" class="form-control"></td>
+                                <td>
+                                    <input type="text" name="pekerjaan" id="pekerjaan" class="form-control">
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-success">Tambah</button>
+                                </td>
+                            </form>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Susunan Keluarga</div>
 
                 <div class="card-body">
-
+                    <table class="table table-light table-bordered table-striped">
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama</th>
+                            <th>Hubungan</th>
+                            <th>Tempat, Tanggal Lahir</th>
+                            <th>Pendidikan Terakhir</th>
+                            <th>Pekerjaan</th>
+                            <th>Aksi</th>
+                        </tr>
+                        @foreach ($suskel as $key => $suskell)
+                        <tr>
+                            <form action="{{ route('user.savedatasusunankel') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="keterangan" value="ubah">
+                                <input type="hidden" name="namaawal" value="{{ $suskell->nama }}">
+                                <td>{{ $key+1 }}</td>
+                                <td><input type="text" name="nama" id="nama" value="{{ $suskell->nama }}" class="form-control"></td>
+                                <td>
+                                    <input type="text" name="hubungan" id="hubungan" value="{{ $suskell->hubungan }}" class="form-control"></td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="text" name="tempatlahir" id="tempatlahir" value="{{ $suskell->tempatlahir }}" class="form-control">
+                                        </div>
+                                        <div class="col">
+                                            <input type="date" name="tanggallahir" id="tanggallahir" value="{{ $suskell->tanggallahir }}" class="form-control">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><input type="text" name="pendterakhir" id="pendterakhir" value="{{ $suskell->pendterakhir }}" class="form-control"></td>
+                                <td>
+                                    <input type="text" name="pekerjaan" id="pekerjaan" value="{{ $suskell->pekerjaan }}" class="form-control">
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-block btn-warning">Ubah</button>
+                                </td>
+                            </form>
+                        </tr>
+                        @endforeach
+                        <tr>
+                            <form action="{{ route('user.savedatasusunankel') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="keterangan" value="tambah">
+                                <td></td>
+                                <td><input type="text" name="nama" id="nama" class="form-control"></td>
+                                <td><input type="text" name="hubungan" id="hubungan" class="form-control"></td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="text" name="tempatlahir" id="tempatlahir" class="form-control">
+                                        </div>
+                                        <div class="col">
+                                            <input type="date" name="tanggallahir" id="tanggallahir" class="form-control">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><input type="text" name="pendterakhir" id="pendterakhir" class="form-control"></td>
+                                <td>
+                                    <input type="text" name="pekerjaan" id="pekerjaan" class="form-control">
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-success">Tambah</button>
+                                </td>
+                            </form>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Riwayat Pendidikan Formal</div>
 
                 <div class="card-body">
-
+                    <table class="table table-bordered table-light table-striped">
+                        <tr>
+                            <th>Jenis Sekolah</th>
+                            <th>Nama Sekolah</th>
+                            <th>Jurusan/Fakultas</th>
+                            <th>Tempat Sekolah</th>
+                            <th>Dari Tahun s/d Tahun</th>
+                            <th>Keterangan</th>
+                        </tr>
+                        <tr>
+                            <td>SD</td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>SMP</td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>SMA</td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Akademi</td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Universitas</td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Pasca Sarjana</td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>Doktoral</td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Riwayat Pendidikan Non-Formal</div>
 
                 <div class="card-body">
-
+                    <table class="table table-bordered table-striped table-light">
+                        <tr>
+                            <th colspan="6">KURSUS</th>
+                        </tr>
+                        <tr>
+                            <th>Jenis Kursus</th>
+                            <th>Nama Lembaga</th>
+                            <th colspan="2">Kota</th>
+                            <th>Tahun</th>
+                            <th>Sertifikat</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td colspan="2">1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <th colspan="6">Pelatihan - Lokakarya - Seminar - Penataran</th>
+                        </tr>
+                        <tr>
+                            <th>Pelatihan\Seminar</th>
+                            <th>Penyelenggara</th>
+                            <th>Tahun</th>
+                            <th>Pembiayaan</th>
+                            <th>Lamanya</th>
+                            <th>Sertifikat</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Pengalaman Berorganisasi</div>
 
                 <div class="card-body">
-
+                    <table class="table table-bordered table-light table-striped">
+                        <tr>
+                            <th>Nama Organisasi</th>
+                            <th>Posisi/Jabatan</th>
+                            <th>Tahun</th>
+                            <th>Kegiatan</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="" id="" class="form-control"></td>
+                            <td><input type="text" name="" id="" class="form-control"></td>
+                            <td><input type="text" name="" id="" class="form-control"></td>
+                            <td><input type="text" name="" id="" class="form-control"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Bahasa yang dikuasai</div>
 
                 <div class="card-body">
-
+                    <table class="table table-bordered table-light table-striped">
+                        <tr>
+                            <th rowspan="2">Bahasa</th>
+                            <th colspan="3">Berbicara</th>
+                            <th colspan="3">Menulis</th>
+                            <th colspan="3">Mengerti</th>
+                        </tr>
+                        <tr>
+                            <th>Kurang</th>
+                            <th>Cukup</th>
+                            <th>Baik</th>
+                            <th>Kurang</th>
+                            <th>Cukup</th>
+                            <th>Baik</th>
+                            <th>Kurang</th>
+                            <th>Cukup</th>
+                            <th>Baik</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Pengalaman Kerja</div>
 
                 <div class="card-body">
-
+                    <table class="table table-bordered tabled-striped">
+                        <tr>
+                            <th>Nama Perusahaan</th>
+                            <td colspan="3"><input type="text" name="" id="" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <th>Alamat</th>
+                            <td colspan="3"><input type="text" name="" id="" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <th>No. Telp Perusahaan</th>
+                            <td><input type="text" name="" id="" class="form-control"></td>
+                            <th>Jabatan Terakhir</th>
+                            <td><input type="text" name="" id="" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <th>Masa Kerja (Th-Th)</th>
+                            <td><input type="text" name="" id="" class="form-control"></td>
+                            <th>Gaji Terakhir</th>
+                            <td><input type="text" name="" id="" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <th>Alasan Berhenti</th>
+                            <td colspan="3"><input type="text" name="" id="" class="form-control"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Minat dan Konsep Pribadi</div>
 
                 <div class="card-body">
@@ -479,7 +864,7 @@
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Aktivasi Sosial dan Kegiatan-kegiatan lain</div>
 
                 <div class="card-body">
@@ -487,7 +872,7 @@
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Lain-lain</div>
 
                 <div class="card-body">
@@ -495,14 +880,39 @@
                 </div>
             </div>
             <br>
-            <div class="card">
+            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Person yang dapat dihubungi ketika keadaan darurat</div>
 
                 <div class="card-body">
-
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>Nama</th>
+                            <th>Alamat Rumah / Kantor</th>
+                            <th>Nomor Telp. / HP</th>
+                            <th>Hubungan</th>
+                            <th>Aksi</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('status2').onchange = function() {
+        if (this.value == 'menikah') {
+            document.getElementById('tglnikah').style.display = 'block';
+        } else {
+            document.getElementById('tglnikah').style.display = 'none';
+        }
+    };
+
+</script>
 @endsection
