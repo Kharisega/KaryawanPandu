@@ -24,11 +24,14 @@ class KaryawanController extends Controller
         $keluarga = DB::table('table_keluarga_lingkungan')->where('nama_karyawan', auth()->user()->name)->get();
         $anak = DB::table('table_anak')->where('nama_karyawan', auth()->user()->name)->get();
         $susunan_keluarga = DB::table('table_susunan_keluarga')->where('nama_karyawan', auth()->user()->name)->get();
+        $pendidikan_formal = DB::table('table_pendidikan_formal')->where('nama_karyawan', auth()->user()->name)->get();
+        $pendidikan_nonformal1 = DB::table('table_nonformal_kursus')->where('nama_karyawan', auth()->user()->name)->get();
+        $pendidikan_nonformal2 = DB::table('table_nonformal_seminar')->where('nama_karyawan', auth()->user()->name)->get();
         $pasfoto = DB::table('table_pasfoto')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotoserbadan = DB::table('table_foto_set_badan')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotoktp = DB::table('table_fotoktp')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotokk = DB::table('table_fotokk')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
-        // dd($susunan_keluarga);
+        // dd($pendidikan_formal);
 
         return view('user.data', [
             'data' => $data,
@@ -39,18 +42,12 @@ class KaryawanController extends Controller
             'fotokk' => $fotokk,
             'anak' => $anak,
             'suskel' => $susunan_keluarga,
+            'pendidikan_formal' => $pendidikan_formal,
+            'pendidikan_nonformal1' => $pendidikan_nonformal1,
+            'pendidikan_nonformal2' => $pendidikan_nonformal2,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -113,29 +110,29 @@ class KaryawanController extends Controller
     {
         $this->validate($request, [
             'image' => 'required|image|mimes:jpeg,png,jpg|max:1024',
-          ]);
+        ]);
 
-          $image = $request->file('image');
-          $nameImage = $request->file('image')->getClientOriginalName();
+        $image = $request->file('image');
+        $nameImage = $request->file('image')->getClientOriginalName();
 
-          $id_karyawan = auth()->user()->id;
-          $nama_karyawan = auth()->user()->name;
-          $namagambar = $nama_karyawan . $id_karyawan . '_' . $nameImage;
+        $id_karyawan = auth()->user()->id;
+        $nama_karyawan = auth()->user()->name;
+        $namagambar = $nama_karyawan . $id_karyawan . '_' . $nameImage;
 
-          $thumbImage = Image::make($image->getRealPath())->resize(200, 200);
-          $thumbPath = public_path() . '/img/pasFoto/kecil/' . $namagambar;
-          $thumbImage = Image::make($thumbImage)->save($thumbPath);
+        $thumbImage = Image::make($image->getRealPath())->resize(200, 200);
+        $thumbPath = public_path() . '/img/pasFoto/kecil/' . $namagambar;
+        $thumbImage = Image::make($thumbImage)->save($thumbPath);
 
-          $oriPath = public_path() . '/img/pasFoto/normal/' . $namagambar;
-          $oriImage = Image::make($image)->save($oriPath);
+        $oriPath = public_path() . '/img/pasFoto/normal/' . $namagambar;
+        $oriImage = Image::make($image)->save($oriPath);
 
-          $datainsert1 = [
+        $datainsert1 = [
             'id_karyawan' => $id_karyawan,
             'nama_karyawan' => $nama_karyawan,
             'namagambar' => $namagambar,
-          ];
+        ];
 
-          $check = DB::table('table_pasfoto')->where('nama_karyawan', $nama_karyawan)->get();
+        $check = DB::table('table_pasfoto')->where('nama_karyawan', $nama_karyawan)->get();
         if (count($check) == 0) {
             $insert1 = DB::table('table_pasfoto')->insert($datainsert1);
         } else {
@@ -148,27 +145,27 @@ class KaryawanController extends Controller
     {
         $this->validate($request, [
             'image' => 'required|image|mimes:jpeg,png,jpg|max:1024',
-          ]);
+        ]);
 
-          $image = $request->file('image');
-          $nameImage = $request->file('image')->getClientOriginalName();
+        $image = $request->file('image');
+        $nameImage = $request->file('image')->getClientOriginalName();
 
-          $id_karyawan = auth()->user()->id;
-          $nama_karyawan = auth()->user()->name;
-          $namagambar = $nama_karyawan . $id_karyawan . '_' . $nameImage;
+        $id_karyawan = auth()->user()->id;
+        $nama_karyawan = auth()->user()->name;
+        $namagambar = $nama_karyawan . $id_karyawan . '_' . $nameImage;
 
-          $thumbImage = Image::make($image->getRealPath())->resize(200, 200);
-          $thumbPath = public_path() . '/img/fotoktp/kecil/' . $namagambar;
+        $thumbImage = Image::make($image->getRealPath())->resize(200, 200);
+        $thumbPath = public_path() . '/img/fotoktp/kecil/' . $namagambar;
           $thumbImage = Image::make($thumbImage)->save($thumbPath);
 
           $oriPath = public_path() . '/img/fotoktp/normal/' . $namagambar;
           $oriImage = Image::make($image)->save($oriPath);
 
           $datainsert1 = [
-            'id_karyawan' => $id_karyawan,
-            'nama_karyawan' => $nama_karyawan,
-            'namagambar' => $namagambar,
-          ];
+              'id_karyawan' => $id_karyawan,
+              'nama_karyawan' => $nama_karyawan,
+              'namagambar' => $namagambar,
+            ];
 
           $check = DB::table('table_fotoktp')->where('nama_karyawan', $nama_karyawan)->get();
         if (count($check) == 0) {
@@ -200,12 +197,12 @@ class KaryawanController extends Controller
           $oriImage = Image::make($image)->save($oriPath);
 
           $datainsert1 = [
-            'id_karyawan' => $id_karyawan,
-            'nama_karyawan' => $nama_karyawan,
+              'id_karyawan' => $id_karyawan,
+              'nama_karyawan' => $nama_karyawan,
             'namagambar' => $namagambar,
-          ];
+        ];
 
-          $check = DB::table('table_fotokk')->where('nama_karyawan', $nama_karyawan)->get();
+        $check = DB::table('table_fotokk')->where('nama_karyawan', $nama_karyawan)->get();
         if (count($check) == 0) {
             $insert1 = DB::table('table_fotokk')->insert($datainsert1);
         } else {
@@ -218,7 +215,7 @@ class KaryawanController extends Controller
     {
         $this->validate($request, [
             'image' => 'required|image|mimes:jpeg,png,jpg|max:1024',
-          ]);
+        ]);
 
           $image = $request->file('image');
           $nameImage = $request->file('image')->getClientOriginalName();
@@ -235,10 +232,10 @@ class KaryawanController extends Controller
           $oriImage = Image::make($image)->save($oriPath);
 
           $datainsert1 = [
-            'id_karyawan' => $id_karyawan,
-            'nama_karyawan' => $nama_karyawan,
-            'namagambar' => $namagambar,
-          ];
+              'id_karyawan' => $id_karyawan,
+              'nama_karyawan' => $nama_karyawan,
+              'namagambar' => $namagambar,
+            ];
 
           $check = DB::table('table_foto_set_badan')->where('nama_karyawan', $nama_karyawan)->get();
         if (count($check) == 0) {
@@ -301,14 +298,14 @@ class KaryawanController extends Controller
         $nama_karyawan = auth()->user()->name;
         // dd($request->namaawal);
         $data = [
-        'id_karyawan' => $id_karyawan,
-        'nama_karyawan' => $nama_karyawan,
-        'nama_anak' => $request->nama_anak,
-        'gender' => $request->gender,
-        'tempatlahir' => $request->tempatlahir,
-        'tanggallahir' => $request->tanggallahir,
-        'pendterakhir' => $request->pendterakhir,
-        'pekerjaan' => $request->pekerjaan,
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'nama_anak' => $request->nama_anak,
+            'gender' => $request->gender,
+            'tempatlahir' => $request->tempatlahir,
+            'tanggallahir' => $request->tanggallahir,
+            'pendterakhir' => $request->pendterakhir,
+            'pekerjaan' => $request->pekerjaan,
         ];
 
         if ($request->keterangan == 'tambah') {
@@ -326,23 +323,23 @@ class KaryawanController extends Controller
         $nama_karyawan = auth()->user()->name;
         // dd($request->namaawal);
         $data = [
-        'id_karyawan' => $id_karyawan,
-        'nama_karyawan' => $nama_karyawan,
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
         'nama' => $request->nama,
         'hubungan' => $request->hubungan,
         'tempatlahir' => $request->tempatlahir,
         'tanggallahir' => $request->tanggallahir,
         'pendterakhir' => $request->pendterakhir,
         'pekerjaan' => $request->pekerjaan,
-        ];
+    ];
 
-        if ($request->keterangan == 'tambah') {
-            $insert1 = DB::table('table_susunan_keluarga')->insert($data);
-        } else {
-            $insert1 = DB::table('table_susunan_keluarga')->where('nama_karyawan', $nama_karyawan)->where('nama', $request->namaawal)->update($data);
-        }
+    if ($request->keterangan == 'tambah') {
+        $insert1 = DB::table('table_susunan_keluarga')->insert($data);
+    } else {
+        $insert1 = DB::table('table_susunan_keluarga')->where('nama_karyawan', $nama_karyawan)->where('nama', $request->namaawal)->update($data);
+    }
 
-        return redirect()->back();
+    return redirect()->back();
     }
 
     /**
@@ -352,9 +349,81 @@ class KaryawanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function pendidikanFormal(Request $request)
     {
-        //
+        // dd($request);
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+
+        for ($i=0; $i < count($request->jenis); $i++) {
+            $data = [
+                'id_karyawan' => $id_karyawan,
+                'nama_karyawan' => $nama_karyawan,
+                'jenis_sekolah' => $request->jenis[$i],
+                'nama_sekolah' => $request->namasekolah[$i],
+                'jurusan' => $request->jurusan[$i],
+                'alamat_sekolah' => $request->alamat[$i],
+                'dari_tahun' => $request->darithn[$i],
+                'keterangan' => $request->keterangan[$i],
+            ];
+
+            $kondisi = DB::table('table_pendidikan_formal')->where('nama_karyawan', $nama_karyawan)->where('jenis_sekolah', $request->jenis[$i])->count();
+            if ($kondisi == 0) {
+                $insert1 = DB::table('table_pendidikan_formal')->insert($data);
+            } else {
+                $insert1 = DB::table('table_pendidikan_formal')->where('nama_karyawan', $nama_karyawan)->where('jenis_sekolah', $request->jenis[$i])->update($data);
+            }
+
+        }
+        return redirect()->back();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function pendidikanNonFormal(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+        // dd($request);
+        if ($request->keterangan1 == 'kursus') {
+            $data = [
+                'id_karyawan' => $id_karyawan,
+                'nama_karyawan' => $nama_karyawan,
+                'jenis_kursus' => $request->jenis_kursus,
+                'nama_lembaga' => $request->nama_lembaga,
+                'kota' => $request->kota,
+                'tahun' => $request->tahun,
+                'sertifikat' => $request->sertifikat,
+            ];
+
+            if ($request->keterangan == 'tambah') {
+                $insert1 = DB::table('table_nonformal_kursus')->insert($data);
+            } else {
+                $insert1 = DB::table('table_nonformal_kursus')->where('nama_karyawan', $nama_karyawan)->update($data);
+            }
+        } else {
+            $data = [
+                'id_karyawan' => $id_karyawan,
+                'nama_karyawan' => $nama_karyawan,
+                'jenislatihan' => $request->jenislatihan,
+                'penyelenggara' => $request->penyelenggara,
+                'tahun' => $request->tahun,
+                'pembiayaan' => $request->pembiayaan,
+                'lamanya' => $request->lamanya,
+                'sertifikat' => $request->sertifikat,
+            ];
+
+            if ($request->keterangan == 'tambah') {
+                $insert1 = DB::table('table_nonformal_seminar')->insert($data);
+            } else {
+                $insert1 = DB::table('table_nonformal_seminar')->where('nama_karyawan', $nama_karyawan)->update($data);
+            }
+        }
+
+        return redirect()->back();
     }
 
     /**

@@ -646,7 +646,7 @@
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Riwayat Pendidikan Formal</div>
 
                 <div class="card-body">
@@ -657,75 +657,76 @@
                             <th>Jurusan/Fakultas</th>
                             <th>Tempat Sekolah</th>
                             <th>Dari Tahun s/d Tahun</th>
-                            <th>Keterangan</th>
+                            <th>Keterangan <br><i style="font-size: 11px;">Lulus/ Tidak Lulus/ Gelar yang diperoleh</i></th>
                         </tr>
-                        <tr>
-                            <td>SD</td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td>SMP</td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td>SMA</td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td>Akademi</td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td>Universitas</td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td>Pasca Sarjana</td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td>Doktoral</td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                            <td><input type="text" name="riwayat" id="riwayat" class="form-control"></td>
-                        </tr>
+                        <form action="{{ route('user.savedatapendfor') }}" method="post">
+                            @csrf
+                            @if(isset($pendidikan_formal) && $pendidikan_formal == [])
+                                @php
+                                $kategori = [
+                                'SD', 'SMP', 'SMA', 'Akademi', 'Universitas', 'Pasca Sarjana', 'Doktoral'
+                                ]
+                                @endphp
+
+                                @foreach ($kategori as $kategorii)
+                                <tr>
+                                    <td>{{ $kategorii }}
+                                        <input type="hidden" name="jenis[]" id="jenis[]" class="form-control" value="{{ $kategorii }}"></td>
+                                    <td><input type="text" name="namasekolah[]" id="namasekolah[]" class="form-control"></td>
+                                    <td><input type="text" name="jurusan[]" id="jurusan[]" class="form-control"></td>
+                                    <td><input type="text" name="alamat[]" id="alamat[]" class="form-control"></td>
+                                    <td><input type="text" name="darithn[]" id="darithn[]" class="form-control"></td>
+                                    <td><input type="text" name="keterangan[]" id="keterangan[]" class="form-control"></td>
+                                </tr>
+                                @endforeach
+                            @else
+                                @foreach ($pendidikan_formal as $key => $pendikira)
+                                <tr>
+                                    <td>{{ $pendikira->jenis_sekolah }}
+                                        <input type="hidden" name="jenis[]" id="jenis[]" class="form-control" value="{{ $pendikira->jenis_sekolah }}"></td>
+                                    <td><input type="text" name="namasekolah[]" id="namasekolah[]" @if(isset($pendikira->nama_sekolah))
+                                        value="{{ $pendikira->nama_sekolah }}"
+                                        @else
+                                        value=""
+                                        @endif class="form-control"></td>
+                                    <td><input type="text" name="jurusan[]" id="jurusan[]" @if(isset($pendikira->jurusan))
+                                        value="{{ $pendikira->jurusan }}"
+                                        @else
+                                        value=""
+                                        @endif class="form-control"></td>
+                                    <td><input type="text" name="alamat[]" id="alamat[]" class="form-control" @if(isset($pendikira->alamat_sekolah))
+                                        value="{{ $pendikira->alamat_sekolah }}"
+                                        @else
+                                        value=""
+                                        @endif ></td>
+                                    <td><input type="text" name="darithn[]" id="darithn[]" class="form-control" @if(isset($pendikira->dari_tahun))
+                                        value="{{ $pendikira->dari_tahun }}"
+                                        @else
+                                        value=""
+                                        @endif ></td>
+                                    <td><input type="text" name="keterangan[]" id="keterangan[]" @if(isset($pendikira->keterangan))
+                                        value="{{ $pendikira->keterangan }}"
+                                        @else
+                                        value=""
+                                        @endif class="form-control"></td>
+                                </tr>
+                                @endforeach
+                            @endif
                     </table>
+                    <div class="row d-flex justify-content-end" style="margin-right: 10px;">
+                        <button type="submit" class="btn btn-success btn-lg">Simpan</button>
+                    </div>
+                    </form>
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Riwayat Pendidikan Non-Formal</div>
 
                 <div class="card-body">
-                    <table class="table table-bordered table-striped table-light">
+                    <table class="table table-bordered table-striped">
                         <tr>
-                            <th colspan="6">KURSUS</th>
+                            <th colspan="7"><center>KURSUS</center></th>
                         </tr>
                         <tr>
                             <th>Jenis Kursus</th>
@@ -733,16 +734,51 @@
                             <th colspan="2">Kota</th>
                             <th>Tahun</th>
                             <th>Sertifikat</th>
+                            <th>Aksi</th>
                         </tr>
+                        @foreach ($pendidikan_nonformal1 as $pendidikan_nonformal)
+                            <form action="{{ route('user.savedatanonformal') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="keterangan1" value="kursus">
+                                <input type="hidden" name="keterangan" value="ubah">
+                                <tr>
+                                    <td><input type="text" name="jenis_kursus" id="jenis_kursus" class="form-control" value="{{ $pendidikan_nonformal->jenis_kursus }}"></td>
+                                    <td><input type="text" name="nama_lembaga" id="nama_lembaga" class="form-control" value="{{ $pendidikan_nonformal->nama_lembaga }}"></td>
+                                    <td colspan="2"><input type="text" name="kota" id="kota" class="form-control" value="{{ $pendidikan_nonformal->kota }}"></td>
+                                    <td><input type="text" name="tahun" id="tahun" class="form-control" value="{{ $pendidikan_nonformal->tahun }}"></td>
+                                    <td>
+                                        <select name="sertifikat" id="sertifikat" class="form-control">
+                                            <option value="ya" @if($pendidikan_nonformal->sertifikat == 'ya') selected @endif>Ya</option>
+                                            <option value="tidak" @if($pendidikan_nonformal->sertifikat == 'tidak') selected @endif>Tidak</option>
+                                        </select>
+                                    </td>
+                                    <td><button type="submit" class="btn btn-warning">Ubah</button></td>
+                                </tr>
+                            </form>
+                        @endforeach
+                        <form action="{{ route('user.savedatanonformal') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="keterangan1" value="kursus">
+                            <input type="hidden" name="keterangan" value="tambah">
+                            <tr>
+                                <td><input type="text" name="jenis_kursus" id="jenis_kursus" class="form-control"></td>
+                                <td><input type="text" name="nama_lembaga" id="nama_lembaga" class="form-control"></td>
+                                <td colspan="2"><input type="text" name="kota" id="kota" class="form-control"></td>
+                                <td><input type="text" name="tahun" id="tahun" class="form-control"></td>
+                                <td>
+                                    <select name="sertifikat" id="sertifikat" class="form-control">
+                                        <option value="ya">Ya</option>
+                                        <option value="tidak">Tidak</option>
+                                    </select>
+                                </td>
+                                <td><button type="submit" class="btn btn-success">Tambah</button></td>
+                            </tr>
+                        </form>
+                    </table>
+                    <br>
+                    <table class="table table-bordered table-striped">
                         <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td colspan="2">1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <th colspan="6">Pelatihan - Lokakarya - Seminar - Penataran</th>
+                            <th colspan="7"><center>Pelatihan - Lokakarya - Seminar - Penataran</center></th>
                         </tr>
                         <tr>
                             <th>Pelatihan\Seminar</th>
@@ -751,20 +787,51 @@
                             <th>Pembiayaan</th>
                             <th>Lamanya</th>
                             <th>Sertifikat</th>
+                            <th>Aksi</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                    </table>
+                        @foreach ($pendidikan_nonformal2 as $pendidikan_nonformal)
+                            <form action="{{ route('user.savedatanonformal') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="keterangan1" value="seminar">
+                                <input type="hidden" name="keterangan" value="ubah">
+                                <tr>
+                                    <td><input type="text" name="jenislatihan" id="jenislatihan" class="form-control" value="{{ $pendidikan_nonformal->jenislatihan }}"></td>
+                                    <td><input type="text" name="penyelenggara" id="penyelenggara" class="form-control" value="{{ $pendidikan_nonformal->penyelenggara }}"></td>
+                                    <td><input type="text" name="tahun" id="tahun" class="form-control" value="{{ $pendidikan_nonformal->tahun }}"></td>
+                                    <td><input type="text" name="pembiayaan" id="pembiayaan" class="form-control" value="{{ $pendidikan_nonformal->pembiayaan }}"></td>
+                                    <td><input type="text" name="lamanya" id="lamanya" class="form-control" value="{{ $pendidikan_nonformal->lamanya }}"></td>
+                                    <td>
+                                        <select name="sertifikat" id="sertifikat" class="form-control">
+                                            <option value="ya" @if($pendidikan_nonformal->sertifikat == 'ya') selected @endif>Ya</option>
+                                            <option value="tidak" @if($pendidikan_nonformal->sertifikat == 'tidak') selected @endif>Tidak</option>
+                                        </select>
+                                    </td>
+                                    <td><button type="submit" class="btn btn-warning">Ubah</button></td>
+                                </tr>
+                            </form>
+                        @endforeach
+                        <form action="{{ route('user.savedatanonformal') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="keterangan1" value="seminar">
+                            <input type="hidden" name="keterangan" value="tambah">
+                            <tr>
+                                <td><input type="text" name="jenislatihan" id="jenislatihan" class="form-control"></td>
+                                <td><input type="text" name="penyelenggara" id="penyelenggara" class="form-control"></td>
+                                <td><input type="text" name="tahun" id="tahun" class="form-control"></td>
+                                <td><input type="text" name="pembiayaan" id="pembiayaan" class="form-control"></td>
+                                <td><input type="text" name="lamanya" id="lamanya" class="form-control"></td>
+                                <td><select name="sertifikat" id="sertifikat" class="form-control">
+                                    <option value="ya">Ya</option>
+                                    <option value="tidak">Tidak</option>
+                                </select></td>
+                                <td><button type="submit" class="btn btn-success">Tambah</button></td>
+                            </tr>
+                        </form>
+                        </table>
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Pengalaman Berorganisasi</div>
 
                 <div class="card-body">
@@ -785,7 +852,7 @@
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Bahasa yang dikuasai</div>
 
                 <div class="card-body">
@@ -823,7 +890,7 @@
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Pengalaman Kerja</div>
 
                 <div class="card-body">
@@ -856,7 +923,7 @@
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Minat dan Konsep Pribadi</div>
 
                 <div class="card-body">
@@ -864,7 +931,7 @@
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Aktivasi Sosial dan Kegiatan-kegiatan lain</div>
 
                 <div class="card-body">
@@ -872,7 +939,7 @@
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Lain-lain</div>
 
                 <div class="card-body">
@@ -880,7 +947,7 @@
                 </div>
             </div>
             <br>
-            <div class="card"  style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Person yang dapat dihubungi ketika keadaan darurat</div>
 
                 <div class="card-body">

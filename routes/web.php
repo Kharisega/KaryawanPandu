@@ -38,3 +38,5 @@ Route::post('user/data/save', 'KaryawanController@store')->name('user.savedata')
 Route::post('user/data/keluarga/save', 'KaryawanController@inputKeluargaLingkungan')->name('user.savedatakeluarga');
 Route::post('user/data/anak/save', 'KaryawanController@anak')->name('user.savedataanak');
 Route::post('user/data/suskel/save', 'KaryawanController@susunanKeluarga')->name('user.savedatasusunankel');
+Route::post('user/data/pendfor/save', 'KaryawanController@pendidikanFormal')->name('user.savedatapendfor');
+Route::post('user/data/nonformal/save', 'KaryawanController@pendidikanNonFormal')->name('user.savedatanonformal');
