@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableNonformalKursus extends Migration
+class CreateTableBahasa extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateTableNonformalKursus extends Migration
      */
     public function up()
     {
-        Schema::create('table_nonformal_kursus', function (Blueprint $table) {
-            $table->id('id_kursus');
+        Schema::create('table_bahasa', function (Blueprint $table) {
+            $table->id('id_bahasa');
             $table->integer('id_karyawan');
             $table->string('nama_karyawan');
-            $table->string('jenis_kursus');
-            $table->string('nama_lembaga');
-            $table->string('kota');
-            $table->string('tahun');
-            $table->string('sertifikat');
+            $table->string('bahasa');
+            $table->string('bicara');
+            $table->string('menulis');
+            $table->string('mengerti');
             $table->timestamps();
         });
     }
@@ -33,6 +32,6 @@ class CreateTableNonformalKursus extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_nonformal_kursus');
+        Schema::dropIfExists('table_bahasa');
     }
 }

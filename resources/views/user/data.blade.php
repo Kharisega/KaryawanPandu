@@ -661,7 +661,7 @@
                         </tr>
                         <form action="{{ route('user.savedatapendfor') }}" method="post">
                             @csrf
-                            @if(isset($pendidikan_formal) && $pendidikan_formal == [])
+                            @if(isset($pendidikan_formal) && count($pendidikan_formal) == 0)
                                 @php
                                 $kategori = [
                                 'SD', 'SMP', 'SMA', 'Akademi', 'Universitas', 'Pasca Sarjana', 'Doktoral'
@@ -741,6 +741,7 @@
                                 @csrf
                                 <input type="hidden" name="keterangan1" value="kursus">
                                 <input type="hidden" name="keterangan" value="ubah">
+                                <input type="hidden" name="id_kursus" value="{{ $pendidikan_nonformal->id_kursus }}">
                                 <tr>
                                     <td><input type="text" name="jenis_kursus" id="jenis_kursus" class="form-control" value="{{ $pendidikan_nonformal->jenis_kursus }}"></td>
                                     <td><input type="text" name="nama_lembaga" id="nama_lembaga" class="form-control" value="{{ $pendidikan_nonformal->nama_lembaga }}"></td>
@@ -790,11 +791,12 @@
                             <th>Aksi</th>
                         </tr>
                         @foreach ($pendidikan_nonformal2 as $pendidikan_nonformal)
-                            <form action="{{ route('user.savedatanonformal') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="keterangan1" value="seminar">
-                                <input type="hidden" name="keterangan" value="ubah">
-                                <tr>
+                        <form action="{{ route('user.savedatanonformal') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="keterangan1" value="seminar">
+                            <input type="hidden" name="keterangan" value="ubah">
+                            <input type="hidden" name="id_seminar" value="{{ $pendidikan_nonformal->id_seminar }}">
+                            <tr>
                                     <td><input type="text" name="jenislatihan" id="jenislatihan" class="form-control" value="{{ $pendidikan_nonformal->jenislatihan }}"></td>
                                     <td><input type="text" name="penyelenggara" id="penyelenggara" class="form-control" value="{{ $pendidikan_nonformal->penyelenggara }}"></td>
                                     <td><input type="text" name="tahun" id="tahun" class="form-control" value="{{ $pendidikan_nonformal->tahun }}"></td>
@@ -841,13 +843,33 @@
                             <th>Posisi/Jabatan</th>
                             <th>Tahun</th>
                             <th>Kegiatan</th>
+                            <th>Aksi</th>
                         </tr>
-                        <tr>
-                            <td><input type="text" name="" id="" class="form-control"></td>
-                            <td><input type="text" name="" id="" class="form-control"></td>
-                            <td><input type="text" name="" id="" class="form-control"></td>
-                            <td><input type="text" name="" id="" class="form-control"></td>
-                        </tr>
+                        @foreach ($pengalaman_organisasi as $peng_orga)
+                        <form action="{{ route('user.savedataorganisasi') }}" method="post">
+                            <input type="hidden" name="keterangan" value="ubah">
+                            <input type="hidden" name="id_organisasi" value="{{ $peng_orga->id_organisasi }}">
+                            @csrf
+                            <tr>
+                                <td><input type="text" name="nama_organisasi" id="nama_organisasi" class="form-control" value="{{ $peng_orga->nama_organisasi }}"></td>
+                                <td><input type="text" name="jabatan" id="jabatan" class="form-control" value="{{ $peng_orga->jabatan }}"></td>
+                                <td><input type="text" name="tahun" id="tahun" class="form-control" value="{{ $peng_orga->tahun }}"></td>
+                                <td><input type="text" name="kegiatan" id="kegiatan" class="form-control" value="{{ $peng_orga->kegiatan }}"></td>
+                                <td><button type="submit" class="btn btn-warning">Ubah</button></td>
+                            </tr>
+                        </form>
+                        @endforeach
+                        <form action="{{ route('user.savedataorganisasi') }}" method="post">
+                            <input type="hidden" name="keterangan" value="tambah">
+                            @csrf
+                            <tr>
+                                <td><input type="text" name="nama_organisasi" id="nama_organisasi" class="form-control"></td>
+                                <td><input type="text" name="jabatan" id="jabatan" class="form-control"></td>
+                                <td><input type="text" name="tahun" id="tahun" class="form-control"></td>
+                                <td><input type="text" name="kegiatan" id="kegiatan" class="form-control"></td>
+                                <td><button type="submit" class="btn btn-success">Tambah</button></td>
+                            </tr>
+                        </form>
                     </table>
                 </div>
             </div>
@@ -858,34 +880,73 @@
                 <div class="card-body">
                     <table class="table table-bordered table-light table-striped">
                         <tr>
-                            <th rowspan="2">Bahasa</th>
-                            <th colspan="3">Berbicara</th>
-                            <th colspan="3">Menulis</th>
-                            <th colspan="3">Mengerti</th>
+                            <th>Bahasa</th>
+                            <th>Berbicara</th>
+                            <th>Menulis</th>
+                            <th>Mengerti</th>
+                            <th>Aksi</th>
                         </tr>
-                        <tr>
-                            <th>Kurang</th>
-                            <th>Cukup</th>
-                            <th>Baik</th>
-                            <th>Kurang</th>
-                            <th>Cukup</th>
-                            <th>Baik</th>
-                            <th>Kurang</th>
-                            <th>Cukup</th>
-                            <th>Baik</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
+                        @foreach($bahasa as $key => $bahasaa)
+                        <form action="{{ route('user.savedatabahasa') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="keterangan" value="ubah">
+                            <input type="hidden" name="id_bahasa" value="{{ $bahasaa->id_bahasa }}">
+                            <tr>
+                                <td><input type="text" name="bahasa" id="bahasa" class="form-control" value="{{ $bahasaa->bahasa }}"></td>
+                                <td>
+                                    <select name="bicara" id="bicara" class="form-control">
+                                        <option value="kurang" @if($bahasaa->bicara == 'kurang') selected @endif>Kurang</option>
+                                        <option value="cukup"  @if($bahasaa->bicara == 'cukup') selected @endif>Cukup</option>
+                                        <option value="baik"  @if($bahasaa->bicara == 'baik') selected @endif>Baik</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="menulis" id="menulis" class="form-control">
+                                        <option value="kurang" @if($bahasaa->menulis == 'kurang') selected @endif>Kurang</option>
+                                        <option value="cukup"  @if($bahasaa->menulis == 'cukup') selected @endif>Cukup</option>
+                                        <option value="baik"  @if($bahasaa->menulis == 'baik') selected @endif>Baik</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="mengerti" id="mengerti" class="form-control">
+                                        <option value="kurang" @if($bahasaa->mengerti == 'kurang') selected @endif>Kurang</option>
+                                        <option value="cukup"  @if($bahasaa->mengerti == 'cukup') selected @endif>Cukup</option>
+                                        <option value="baik"  @if($bahasaa->mengerti == 'baik') selected @endif>Baik</option>
+                                    </select>
+                                </td>
+                                <td><button type="submit" class="btn btn-warning">Ubah</button></td>
+                            </tr>
+                        </form>
+                        @endforeach
+                        <form action="{{ route('user.savedatabahasa') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="keterangan" value="tambah">
+                            <tr>
+                                <td><input type="text" name="bahasa" id="bahasa" class="form-control"></td>
+                                <td>
+                                    <select name="bicara" id="bicara" class="form-control">
+                                        <option value="kurang">Kurang</option>
+                                        <option value="cukup">Cukup</option>
+                                        <option value="baik">Baik</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="menulis" id="menulis" class="form-control">
+                                        <option value="kurang">Kurang</option>
+                                        <option value="cukup">Cukup</option>
+                                        <option value="baik">Baik</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="mengerti" id="mengerti" class="form-control">
+                                        <option value="kurang">Kurang</option>
+                                        <option value="cukup">Cukup</option>
+                                        <option value="baik">Baik</option>
+                                    </select>
+                                </td>
+                                <td><button type="submit" class="btn btn-success">Tambah</button></td>
+                            </tr>
+                        </form>
                     </table>
                 </div>
             </div>
@@ -897,29 +958,46 @@
                     <table class="table table-bordered tabled-striped">
                         <tr>
                             <th>Nama Perusahaan</th>
-                            <td colspan="3"><input type="text" name="" id="" class="form-control"></td>
-                        </tr>
-                        <tr>
                             <th>Alamat</th>
-                            <td colspan="3"><input type="text" name="" id="" class="form-control"></td>
-                        </tr>
-                        <tr>
                             <th>No. Telp Perusahaan</th>
-                            <td><input type="text" name="" id="" class="form-control"></td>
                             <th>Jabatan Terakhir</th>
-                            <td><input type="text" name="" id="" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <th>Masa Kerja (Th-Th)</th>
-                            <td><input type="text" name="" id="" class="form-control"></td>
                             <th>Gaji Terakhir</th>
-                            <td><input type="text" name="" id="" class="form-control"></td>
-                        </tr>
-                        <tr>
+                            <th>Masa Kerja (Tahun-tahun)</th>
                             <th>Alasan Berhenti</th>
-                            <td colspan="3"><input type="text" name="" id="" class="form-control"></td>
+                            <th>Aksi</th>
                         </tr>
-                    </table>
+                        @foreach($pengalaman_kerja as $key => $peng_kerja)
+                        <form action="{{ route('user.savedatakerja') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="keterangan" value="ubah">
+                            <input type="hidden" name="id_pengalaman" value="{{ $peng_kerja->id_pengalaman }}">
+                            <tr>
+                                <td><input type="text" name="nama_perusahaan" id="nama_perusahaan" class="form-control" value="{{ $peng_kerja->nama_perusahaan }}"></td>
+                                <td><input type="text" name="alamat" id="alamat" class="form-control" value="{{ $peng_kerja->alamat }}"></td>
+                                <td><input type="text" name="notelp_kantor" id="notelp_kantor" class="form-control" value="{{ $peng_kerja->notelp_kantor }}"></td>
+                                <td><input type="text" name="jabatan_terakhir" id="jabatan_terakhir" class="form-control" value="{{ $peng_kerja->jabatan_terakhir }}"></td>
+                                <td><input type="text" name="gaji_terakhir" id="gaji_terakhir" class="form-control" value="{{ $peng_kerja->gaji_terakhir }}"></td>
+                                <td><input type="text" name="masa_kerja" id="masa_kerja" class="form-control" value="{{ $peng_kerja->masa_kerja }}"></td>
+                                <td><input type="text" name="alasan" id="alasan" class="form-control" value="{{ $peng_kerja->alasan }}"></td>
+                                <td><button type="submit" class="btn btn-warning">Ubah</button></td>
+                            </tr>
+                        </form>
+                        @endforeach
+                        <form action="{{ route('user.savedatakerja') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="keterangan" value="tambah">
+                            <tr>
+                                <td><input type="text" name="nama_perusahaan" id="nama_perusahaan" class="form-control"></td>
+                                <td><input type="text" name="alamat" id="alamat" class="form-control"></td>
+                                <td><input type="text" name="notelp_kantor" id="notelp_kantor" class="form-control"></td>
+                                <td><input type="text" name="jabatan_terakhir" id="jabatan_terakhir" class="form-control"></td>
+                                <td><input type="text" name="gaji_terakhir" id="gaji_terakhir" class="form-control"></td>
+                                <td><input type="text" name="masa_kerja" id="masa_kerja" class="form-control"></td>
+                                <td><input type="text" name="alasan" id="alasan" class="form-control"></td>
+                                <td><button type="submit" class="btn btn-success">Tambah</button></td>
+                            </tr>
+                        </form>
+                        </table>
                 </div>
             </div>
             <br>

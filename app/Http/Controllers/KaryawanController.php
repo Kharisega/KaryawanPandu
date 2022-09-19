@@ -27,11 +27,14 @@ class KaryawanController extends Controller
         $pendidikan_formal = DB::table('table_pendidikan_formal')->where('nama_karyawan', auth()->user()->name)->get();
         $pendidikan_nonformal1 = DB::table('table_nonformal_kursus')->where('nama_karyawan', auth()->user()->name)->get();
         $pendidikan_nonformal2 = DB::table('table_nonformal_seminar')->where('nama_karyawan', auth()->user()->name)->get();
+        $pengalaman_organisasi = DB::table('table_pengalaman_organisasi')->where('nama_karyawan', auth()->user()->name)->get();
+        $pengalaman_kerja = DB::table('table_pengalaman_kerja')->where('nama_karyawan', auth()->user()->name)->get();
+        $bahasa = DB::table('table_bahasa')->where('nama_karyawan', auth()->user()->name)->get();
         $pasfoto = DB::table('table_pasfoto')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotoserbadan = DB::table('table_foto_set_badan')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotoktp = DB::table('table_fotoktp')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotokk = DB::table('table_fotokk')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
-        // dd($pendidikan_formal);
+        // dd(count($pendidikan_formal) == 0);
 
         return view('user.data', [
             'data' => $data,
@@ -41,10 +44,13 @@ class KaryawanController extends Controller
             'fotoktp' => $fotoktp,
             'fotokk' => $fotokk,
             'anak' => $anak,
+            'bahasa' => $bahasa,
             'suskel' => $susunan_keluarga,
             'pendidikan_formal' => $pendidikan_formal,
             'pendidikan_nonformal1' => $pendidikan_nonformal1,
             'pendidikan_nonformal2' => $pendidikan_nonformal2,
+            'pengalaman_organisasi' => $pengalaman_organisasi,
+            'pengalaman_kerja' => $pengalaman_kerja,
         ]);
     }
 
@@ -402,7 +408,7 @@ class KaryawanController extends Controller
             if ($request->keterangan == 'tambah') {
                 $insert1 = DB::table('table_nonformal_kursus')->insert($data);
             } else {
-                $insert1 = DB::table('table_nonformal_kursus')->where('nama_karyawan', $nama_karyawan)->update($data);
+                $insert1 = DB::table('table_nonformal_kursus')->where('nama_karyawan', $nama_karyawan)->where('id_kursus', $request->id_kursus)->update($data);
             }
         } else {
             $data = [
@@ -419,7 +425,7 @@ class KaryawanController extends Controller
             if ($request->keterangan == 'tambah') {
                 $insert1 = DB::table('table_nonformal_seminar')->insert($data);
             } else {
-                $insert1 = DB::table('table_nonformal_seminar')->where('nama_karyawan', $nama_karyawan)->update($data);
+                $insert1 = DB::table('table_nonformal_seminar')->where('nama_karyawan', $nama_karyawan)->where('id_seminar', $request->id_seminar)->update($data);
             }
         }
 
@@ -432,8 +438,75 @@ class KaryawanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function pengalamanOrganisasi(Request $request)
     {
-        //
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+
+        $data = [
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'nama_organisasi' => $request->nama_organisasi,
+            'jabatan' => $request->jabatan,
+            'tahun' => $request->tahun,
+            'kegiatan' => $request->kegiatan,
+        ];
+
+        if ($request->keterangan == 'tambah') {
+            $insert1 = DB::table('table_pengalaman_organisasi')->insert($data);
+        } else {
+            $insert1 = DB::table('table_pengalaman_organisasi')->where('nama_karyawan', $nama_karyawan)->where('id_organisasi', $request->id_organisasi)->update($data);
+        }
+
+        return redirect()->back();
+    }
+
+    public function bahasa(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+
+        $data = [
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'bahasa' => $request->bahasa,
+            'bicara' => $request->bicara,
+            'menulis' => $request->menulis,
+            'mengerti' => $request->mengerti,
+        ];
+
+        if ($request->keterangan == 'tambah') {
+            $insert1 = DB::table('table_bahasa')->insert($data);
+        } else {
+            $insert1 = DB::table('table_bahasa')->where('nama_karyawan', $nama_karyawan)->where('id_bahasa', $request->id_bahasa)->update($data);
+        }
+
+        return redirect()->back();
+    }
+
+    public function pengalamanKerja(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+
+        $data = [
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'alamat' => $request->alamat,
+            'notelp_kantor' => $request->notelp_kantor,
+            'jabatan_terakhir' => $request->jabatan_terakhir,
+            'gaji_terakhir' => $request->gaji_terakhir,
+            'masa_kerja' => $request->masa_kerja,
+            'alasan' => $request->alasan,
+        ];
+
+        if ($request->keterangan == 'tambah') {
+            $insert1 = DB::table('table_pengalaman_kerja')->insert($data);
+        } else {
+            $insert1 = DB::table('table_pengalaman_kerja')->where('nama_karyawan', $nama_karyawan)->where('id_pengalaman', $request->id_pengalaman)->update($data);
+        }
+
+        return redirect()->back();
     }
 }

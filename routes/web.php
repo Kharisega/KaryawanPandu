@@ -40,3 +40,6 @@ Route::post('user/data/anak/save', 'KaryawanController@anak')->name('user.saveda
 Route::post('user/data/suskel/save', 'KaryawanController@susunanKeluarga')->name('user.savedatasusunankel');
 Route::post('user/data/pendfor/save', 'KaryawanController@pendidikanFormal')->name('user.savedatapendfor');
 Route::post('user/data/nonformal/save', 'KaryawanController@pendidikanNonFormal')->name('user.savedatanonformal');
+Route::post('user/data/organisasi/save', 'KaryawanController@pengalamanOrganisasi')->name('user.savedataorganisasi');
+Route::post('user/data/bahasa/save', 'KaryawanController@bahasa')->name('user.savedatabahasa');
+Route::post('user/data/kerja/save', 'KaryawanController@pengalamanKerja')->name('user.savedatakerja');

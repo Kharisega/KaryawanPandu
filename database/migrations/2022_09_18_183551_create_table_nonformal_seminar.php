@@ -14,6 +14,7 @@ class CreateTableNonformalSeminar extends Migration
     public function up()
     {
         Schema::create('table_nonformal_seminar', function (Blueprint $table) {
+            $table->id('id_seminar');
             $table->integer('id_karyawan');
             $table->string('nama_karyawan');
             $table->string('jenislatihan');
