@@ -662,55 +662,55 @@
                         <form action="{{ route('user.savedatapendfor') }}" method="post">
                             @csrf
                             @if(isset($pendidikan_formal) && count($pendidikan_formal) == 0)
-                                @php
-                                $kategori = [
-                                'SD', 'SMP', 'SMA', 'Akademi', 'Universitas', 'Pasca Sarjana', 'Doktoral'
-                                ]
-                                @endphp
+                            @php
+                            $kategori = [
+                            'SD', 'SMP', 'SMA', 'Akademi', 'Universitas', 'Pasca Sarjana', 'Doktoral'
+                            ]
+                            @endphp
 
-                                @foreach ($kategori as $kategorii)
-                                <tr>
-                                    <td>{{ $kategorii }}
-                                        <input type="hidden" name="jenis[]" id="jenis[]" class="form-control" value="{{ $kategorii }}"></td>
-                                    <td><input type="text" name="namasekolah[]" id="namasekolah[]" class="form-control"></td>
-                                    <td><input type="text" name="jurusan[]" id="jurusan[]" class="form-control"></td>
-                                    <td><input type="text" name="alamat[]" id="alamat[]" class="form-control"></td>
-                                    <td><input type="text" name="darithn[]" id="darithn[]" class="form-control"></td>
-                                    <td><input type="text" name="keterangan[]" id="keterangan[]" class="form-control"></td>
-                                </tr>
-                                @endforeach
+                            @foreach ($kategori as $kategorii)
+                            <tr>
+                                <td>{{ $kategorii }}
+                                    <input type="hidden" name="jenis[]" id="jenis[]" class="form-control" value="{{ $kategorii }}"></td>
+                                <td><input type="text" name="namasekolah[]" id="namasekolah[]" class="form-control"></td>
+                                <td><input type="text" name="jurusan[]" id="jurusan[]" class="form-control"></td>
+                                <td><input type="text" name="alamat[]" id="alamat[]" class="form-control"></td>
+                                <td><input type="text" name="darithn[]" id="darithn[]" class="form-control"></td>
+                                <td><input type="text" name="keterangan[]" id="keterangan[]" class="form-control"></td>
+                            </tr>
+                            @endforeach
                             @else
-                                @foreach ($pendidikan_formal as $key => $pendikira)
-                                <tr>
-                                    <td>{{ $pendikira->jenis_sekolah }}
-                                        <input type="hidden" name="jenis[]" id="jenis[]" class="form-control" value="{{ $pendikira->jenis_sekolah }}"></td>
-                                    <td><input type="text" name="namasekolah[]" id="namasekolah[]" @if(isset($pendikira->nama_sekolah))
-                                        value="{{ $pendikira->nama_sekolah }}"
-                                        @else
-                                        value=""
-                                        @endif class="form-control"></td>
-                                    <td><input type="text" name="jurusan[]" id="jurusan[]" @if(isset($pendikira->jurusan))
-                                        value="{{ $pendikira->jurusan }}"
-                                        @else
-                                        value=""
-                                        @endif class="form-control"></td>
-                                    <td><input type="text" name="alamat[]" id="alamat[]" class="form-control" @if(isset($pendikira->alamat_sekolah))
-                                        value="{{ $pendikira->alamat_sekolah }}"
-                                        @else
-                                        value=""
-                                        @endif ></td>
-                                    <td><input type="text" name="darithn[]" id="darithn[]" class="form-control" @if(isset($pendikira->dari_tahun))
-                                        value="{{ $pendikira->dari_tahun }}"
-                                        @else
-                                        value=""
-                                        @endif ></td>
-                                    <td><input type="text" name="keterangan[]" id="keterangan[]" @if(isset($pendikira->keterangan))
-                                        value="{{ $pendikira->keterangan }}"
-                                        @else
-                                        value=""
-                                        @endif class="form-control"></td>
-                                </tr>
-                                @endforeach
+                            @foreach ($pendidikan_formal as $key => $pendikira)
+                            <tr>
+                                <td>{{ $pendikira->jenis_sekolah }}
+                                    <input type="hidden" name="jenis[]" id="jenis[]" class="form-control" value="{{ $pendikira->jenis_sekolah }}"></td>
+                                <td><input type="text" name="namasekolah[]" id="namasekolah[]" @if(isset($pendikira->nama_sekolah))
+                                    value="{{ $pendikira->nama_sekolah }}"
+                                    @else
+                                    value=""
+                                    @endif class="form-control"></td>
+                                <td><input type="text" name="jurusan[]" id="jurusan[]" @if(isset($pendikira->jurusan))
+                                    value="{{ $pendikira->jurusan }}"
+                                    @else
+                                    value=""
+                                    @endif class="form-control"></td>
+                                <td><input type="text" name="alamat[]" id="alamat[]" class="form-control" @if(isset($pendikira->alamat_sekolah))
+                                    value="{{ $pendikira->alamat_sekolah }}"
+                                    @else
+                                    value=""
+                                    @endif ></td>
+                                <td><input type="text" name="darithn[]" id="darithn[]" class="form-control" @if(isset($pendikira->dari_tahun))
+                                    value="{{ $pendikira->dari_tahun }}"
+                                    @else
+                                    value=""
+                                    @endif ></td>
+                                <td><input type="text" name="keterangan[]" id="keterangan[]" @if(isset($pendikira->keterangan))
+                                    value="{{ $pendikira->keterangan }}"
+                                    @else
+                                    value=""
+                                    @endif class="form-control"></td>
+                            </tr>
+                            @endforeach
                             @endif
                     </table>
                     <div class="row d-flex justify-content-end" style="margin-right: 10px;">
@@ -726,7 +726,9 @@
                 <div class="card-body">
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th colspan="7"><center>KURSUS</center></th>
+                            <th colspan="7">
+                                <center>KURSUS</center>
+                            </th>
                         </tr>
                         <tr>
                             <th>Jenis Kursus</th>
@@ -737,25 +739,25 @@
                             <th>Aksi</th>
                         </tr>
                         @foreach ($pendidikan_nonformal1 as $pendidikan_nonformal)
-                            <form action="{{ route('user.savedatanonformal') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="keterangan1" value="kursus">
-                                <input type="hidden" name="keterangan" value="ubah">
-                                <input type="hidden" name="id_kursus" value="{{ $pendidikan_nonformal->id_kursus }}">
-                                <tr>
-                                    <td><input type="text" name="jenis_kursus" id="jenis_kursus" class="form-control" value="{{ $pendidikan_nonformal->jenis_kursus }}"></td>
-                                    <td><input type="text" name="nama_lembaga" id="nama_lembaga" class="form-control" value="{{ $pendidikan_nonformal->nama_lembaga }}"></td>
-                                    <td colspan="2"><input type="text" name="kota" id="kota" class="form-control" value="{{ $pendidikan_nonformal->kota }}"></td>
-                                    <td><input type="text" name="tahun" id="tahun" class="form-control" value="{{ $pendidikan_nonformal->tahun }}"></td>
-                                    <td>
-                                        <select name="sertifikat" id="sertifikat" class="form-control">
-                                            <option value="ya" @if($pendidikan_nonformal->sertifikat == 'ya') selected @endif>Ya</option>
-                                            <option value="tidak" @if($pendidikan_nonformal->sertifikat == 'tidak') selected @endif>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td><button type="submit" class="btn btn-warning">Ubah</button></td>
-                                </tr>
-                            </form>
+                        <form action="{{ route('user.savedatanonformal') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="keterangan1" value="kursus">
+                            <input type="hidden" name="keterangan" value="ubah">
+                            <input type="hidden" name="id_kursus" value="{{ $pendidikan_nonformal->id_kursus }}">
+                            <tr>
+                                <td><input type="text" name="jenis_kursus" id="jenis_kursus" class="form-control" value="{{ $pendidikan_nonformal->jenis_kursus }}"></td>
+                                <td><input type="text" name="nama_lembaga" id="nama_lembaga" class="form-control" value="{{ $pendidikan_nonformal->nama_lembaga }}"></td>
+                                <td colspan="2"><input type="text" name="kota" id="kota" class="form-control" value="{{ $pendidikan_nonformal->kota }}"></td>
+                                <td><input type="text" name="tahun" id="tahun" class="form-control" value="{{ $pendidikan_nonformal->tahun }}"></td>
+                                <td>
+                                    <select name="sertifikat" id="sertifikat" class="form-control">
+                                        <option value="ya" @if($pendidikan_nonformal->sertifikat == 'ya') selected @endif>Ya</option>
+                                        <option value="tidak" @if($pendidikan_nonformal->sertifikat == 'tidak') selected @endif>Tidak</option>
+                                    </select>
+                                </td>
+                                <td><button type="submit" class="btn btn-warning">Ubah</button></td>
+                            </tr>
+                        </form>
                         @endforeach
                         <form action="{{ route('user.savedatanonformal') }}" method="post">
                             @csrf
@@ -779,7 +781,9 @@
                     <br>
                     <table class="table table-bordered table-striped">
                         <tr>
-                            <th colspan="7"><center>Pelatihan - Lokakarya - Seminar - Penataran</center></th>
+                            <th colspan="7">
+                                <center>Pelatihan - Lokakarya - Seminar - Penataran</center>
+                            </th>
                         </tr>
                         <tr>
                             <th>Pelatihan\Seminar</th>
@@ -797,20 +801,20 @@
                             <input type="hidden" name="keterangan" value="ubah">
                             <input type="hidden" name="id_seminar" value="{{ $pendidikan_nonformal->id_seminar }}">
                             <tr>
-                                    <td><input type="text" name="jenislatihan" id="jenislatihan" class="form-control" value="{{ $pendidikan_nonformal->jenislatihan }}"></td>
-                                    <td><input type="text" name="penyelenggara" id="penyelenggara" class="form-control" value="{{ $pendidikan_nonformal->penyelenggara }}"></td>
-                                    <td><input type="text" name="tahun" id="tahun" class="form-control" value="{{ $pendidikan_nonformal->tahun }}"></td>
-                                    <td><input type="text" name="pembiayaan" id="pembiayaan" class="form-control" value="{{ $pendidikan_nonformal->pembiayaan }}"></td>
-                                    <td><input type="text" name="lamanya" id="lamanya" class="form-control" value="{{ $pendidikan_nonformal->lamanya }}"></td>
-                                    <td>
-                                        <select name="sertifikat" id="sertifikat" class="form-control">
-                                            <option value="ya" @if($pendidikan_nonformal->sertifikat == 'ya') selected @endif>Ya</option>
-                                            <option value="tidak" @if($pendidikan_nonformal->sertifikat == 'tidak') selected @endif>Tidak</option>
-                                        </select>
-                                    </td>
-                                    <td><button type="submit" class="btn btn-warning">Ubah</button></td>
-                                </tr>
-                            </form>
+                                <td><input type="text" name="jenislatihan" id="jenislatihan" class="form-control" value="{{ $pendidikan_nonformal->jenislatihan }}"></td>
+                                <td><input type="text" name="penyelenggara" id="penyelenggara" class="form-control" value="{{ $pendidikan_nonformal->penyelenggara }}"></td>
+                                <td><input type="text" name="tahun" id="tahun" class="form-control" value="{{ $pendidikan_nonformal->tahun }}"></td>
+                                <td><input type="text" name="pembiayaan" id="pembiayaan" class="form-control" value="{{ $pendidikan_nonformal->pembiayaan }}"></td>
+                                <td><input type="text" name="lamanya" id="lamanya" class="form-control" value="{{ $pendidikan_nonformal->lamanya }}"></td>
+                                <td>
+                                    <select name="sertifikat" id="sertifikat" class="form-control">
+                                        <option value="ya" @if($pendidikan_nonformal->sertifikat == 'ya') selected @endif>Ya</option>
+                                        <option value="tidak" @if($pendidikan_nonformal->sertifikat == 'tidak') selected @endif>Tidak</option>
+                                    </select>
+                                </td>
+                                <td><button type="submit" class="btn btn-warning">Ubah</button></td>
+                            </tr>
+                        </form>
                         @endforeach
                         <form action="{{ route('user.savedatanonformal') }}" method="post">
                             @csrf
@@ -823,13 +827,13 @@
                                 <td><input type="text" name="pembiayaan" id="pembiayaan" class="form-control"></td>
                                 <td><input type="text" name="lamanya" id="lamanya" class="form-control"></td>
                                 <td><select name="sertifikat" id="sertifikat" class="form-control">
-                                    <option value="ya">Ya</option>
-                                    <option value="tidak">Tidak</option>
-                                </select></td>
+                                        <option value="ya">Ya</option>
+                                        <option value="tidak">Tidak</option>
+                                    </select></td>
                                 <td><button type="submit" class="btn btn-success">Tambah</button></td>
                             </tr>
                         </form>
-                        </table>
+                    </table>
                 </div>
             </div>
             <br>
@@ -896,22 +900,22 @@
                                 <td>
                                     <select name="bicara" id="bicara" class="form-control">
                                         <option value="kurang" @if($bahasaa->bicara == 'kurang') selected @endif>Kurang</option>
-                                        <option value="cukup"  @if($bahasaa->bicara == 'cukup') selected @endif>Cukup</option>
-                                        <option value="baik"  @if($bahasaa->bicara == 'baik') selected @endif>Baik</option>
+                                        <option value="cukup" @if($bahasaa->bicara == 'cukup') selected @endif>Cukup</option>
+                                        <option value="baik" @if($bahasaa->bicara == 'baik') selected @endif>Baik</option>
                                     </select>
                                 </td>
                                 <td>
                                     <select name="menulis" id="menulis" class="form-control">
                                         <option value="kurang" @if($bahasaa->menulis == 'kurang') selected @endif>Kurang</option>
-                                        <option value="cukup"  @if($bahasaa->menulis == 'cukup') selected @endif>Cukup</option>
-                                        <option value="baik"  @if($bahasaa->menulis == 'baik') selected @endif>Baik</option>
+                                        <option value="cukup" @if($bahasaa->menulis == 'cukup') selected @endif>Cukup</option>
+                                        <option value="baik" @if($bahasaa->menulis == 'baik') selected @endif>Baik</option>
                                     </select>
                                 </td>
                                 <td>
                                     <select name="mengerti" id="mengerti" class="form-control">
                                         <option value="kurang" @if($bahasaa->mengerti == 'kurang') selected @endif>Kurang</option>
-                                        <option value="cukup"  @if($bahasaa->mengerti == 'cukup') selected @endif>Cukup</option>
-                                        <option value="baik"  @if($bahasaa->mengerti == 'baik') selected @endif>Baik</option>
+                                        <option value="cukup" @if($bahasaa->mengerti == 'cukup') selected @endif>Cukup</option>
+                                        <option value="baik" @if($bahasaa->mengerti == 'baik') selected @endif>Baik</option>
                                     </select>
                                 </td>
                                 <td><button type="submit" class="btn btn-warning">Ubah</button></td>
@@ -997,58 +1001,177 @@
                                 <td><button type="submit" class="btn btn-success">Tambah</button></td>
                             </tr>
                         </form>
-                        </table>
+                    </table>
                 </div>
             </div>
             <br>
             <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
                 <div class="card-header">Minat dan Konsep Pribadi</div>
-
                 <div class="card-body">
-
+                    <form action="{{ route('user.savedataminat') }}" method="post">
+                        @csrf
+                        <div class="col">
+                            <div class="row mb-2">
+                                <label class="form-label" for="alasan">1. Mengapa Saudara ingin bekerja di Yayasan/SMK Bagimu Negeriku Semarang?</label>
+                                <textarea name="alasan" id="alasan" cols="30" rows="10" style="height: 100px" class="form-control">@if(isset($minat[0]->alasan)) {{ $minat[0]->alasan }} @endif</textarea>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="form-label" for="pengetahuan">2. Apa yang Saudara ketahui mengenai Perusahaan kami?</label>
+                                <textarea name="pengetahuan" id="pengetahuan" cols="30" rows="10" style="height: 100px" class="form-control">@if(isset($minat[0]->alasan)) {{ $minat[0]->pengetahuan }} @endif</textarea>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="row" style="width: 100vmax">
+                                    <div class="col"><label class="form-label" for="gaji">3. Berapa gaji minimal yang Saudara inginkan?</label></div>
+                                    <div class="col col-md-8">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1">Rp.</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="gaji" id="gaji" placeholder="Gaji" aria-label="Gaji" @if(isset($minat[0]->gaji)) value="{{ $minat[0]->gaji }}" @endif aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="no4">4. Fasilitas-fasilitas yang diinginkan disamping gaji</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">a</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="fasilitas1" id="fasilitas1" @if(isset($minat[0]->fasilitas1)) value="{{ $minat[0]->fasilitas1 }}" @endif aria-describedby="basic-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">b</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="fasilitas2" id="fasilitas2" @if(isset($minat[0]->fasilitas2)) value="{{ $minat[0]->fasilitas2 }}" @endif aria-describedby="basic-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">c</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="fasilitas3" id="fasilitas3" @if(isset($minat[0]->fasilitas3)) value="{{ $minat[0]->fasilitas3 }}" @endif aria-describedby="basic-addon1">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">d</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="fasilitas4" id="fasilitas4" @if(isset($minat[0]->fasilitas4)) value="{{ $minat[0]->fasilitas4 }}" @endif aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="row" style="width: 100vmax">
+                                    <div class="col"><label class="form-label" for="mulaikerja">5. Kapan saudara dapat mulai kerja?</label></div>
+                                    <div class="col col-md-8">
+                                        <input type="text" name="mulaikerja" id="mulaikerja" class="form-control" @if(isset($minat[0]->mulaikerja)) value="{{ $minat[0]->mulaikerja }}" @endif>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-end" style="margin-right: 10px;">
+                                <button type="submit" class="btn btn-success btn-lg">Simpan</button>
+                            </div>
+                    </form>
                 </div>
+
             </div>
-            <br>
-            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
-                <div class="card-header">Aktivasi Sosial dan Kegiatan-kegiatan lain</div>
+        </div>
+        <br>
+        <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card-header">Aktivasi Sosial dan Kegiatan-kegiatan lain</div>
 
-                <div class="card-body">
-
-                </div>
+            <div class="card-body">
+                <form action="{{ route('user.savedatasosial') }}" method="post">
+                    @csrf
+                    <div class="col">
+                        <div class="row mb-2">
+                            <label class="form-label" for="hobi">1. Apakah hobby / kegemaran Saudara?</label>
+                            <textarea name="hobi" id="hobi" cols="30" rows="10" style="height: 100px" class="form-control">@if(isset($aktivitas_sosial[0]->hobi)) {{ $aktivitas_sosial[0]->hobi }} @endif</textarea>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="form-label" for="waktuluang">2. Bagaimana cara Saudara mengisi waktu luang?</label>
+                            <textarea name="waktuluang" id="waktuluang" cols="30" rows="10" style="height: 100px" class="form-control">@if(isset($aktivitas_sosial[0]->waktuluang)) {{ $aktivitas_sosial[0]->waktuluang }} @endif</textarea>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="form-label" for="membaca">3. a. Surat kabar, majalah atau buku-buku apakah yang Saudara baca? Jelaskan.</label>
+                            <textarea name="membaca" id="membaca" cols="30" rows="10" style="height: 100px" class="form-control">@if(isset($aktivitas_sosial[0]->membaca)) {{ $aktivitas_sosial[0]->membaca }} @endif</textarea>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="form-label" for="topik">3. b. Pokok-pokok / topik-topik apakah yang paling Saudara senangi? Jelaskan</label>
+                            <textarea name="topik" id="topik" cols="30" rows="10" style="height: 100px" class="form-control">@if(isset($aktivitas_sosial[0]->topik)) {{ $aktivitas_sosial[0]->topik }} @endif</textarea>
+                        </div>
+                        <div class="row d-flex justify-content-end" style="margin-right: 10px;">
+                            <button type="submit" class="btn btn-success btn-lg">Simpan</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <br>
-            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
-                <div class="card-header">Lain-lain</div>
+        </div>
+        <br>
+        <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card-header">Lain-lain</div>
 
-                <div class="card-body">
-
-                </div>
+            <div class="card-body">
+                <form action="{{ route('user.savedatalainnya') }}" method="post">
+                    @csrf
+                    <div class="col">
+                        <div class="row mb-2">
+                            <label class="form-label" for="hobi">1. a. Faktor-faktor apakah yang merupakan kekuatan bagi diri Saudara?</label>
+                            <textarea name="kekuatan" id="kekuatan" cols="30" rows="10" style="height: 100px" class="form-control">@if(isset($lainnya[0]->kekuatan)) {{ $lainnya[0]->kekuatan }} @endif</textarea>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="form-label" for="waktuluang">b. Faktor-faktor apakah yang Saudara rasakan merupakan kelemahan bagi diri Saudara?</label>
+                            <textarea name="kelemahan" id="kelemahan" cols="30" rows="10" style="height: 100px" class="form-control">@if(isset($lainnya[0]->kelemahan)) {{ $lainnya[0]->kelemahan }} @endif</textarea>
+                        </div>
+                        <div class="row d-flex justify-content-end" style="margin-right: 10px;">
+                            <button type="submit" class="btn btn-success btn-lg">Simpan</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <br>
-            <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
-                <div class="card-header">Person yang dapat dihubungi ketika keadaan darurat</div>
+        </div>
+        <br>
+        <div class="card" style="width: 70rem; margin-left: 1px; margin-bottom: 10px;">
+            <div class="card-header">Person yang dapat dihubungi ketika keadaan darurat</div>
 
-                <div class="card-body">
-                    <table class="table table-bordered table-striped">
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Nama</th>
+                        <th>Alamat Rumah / Kantor</th>
+                        <th>Nomor Telp. / HP</th>
+                        <th>Hubungan</th>
+                        <th>Aksi</th>
+                    </tr>
+                    @foreach($nomor_darurat as $key => $darurat)
+                    <form action="{{ route('user.savedatadarurat') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="keterangan" value="ubah">
+                        <input type="hidden" name="id_darurat" value="{{ $darurat->id_darurat }}">
                         <tr>
-                            <th>Nama</th>
-                            <th>Alamat Rumah / Kantor</th>
-                            <th>Nomor Telp. / HP</th>
-                            <th>Hubungan</th>
-                            <th>Aksi</th>
+                            <td><input type="text" name="nama" id="nama" class="form-control" value="{{ $darurat->nama }}"></td>
+                            <td><input type="text" name="alamat" id="alamat" class="form-control" value="{{ $darurat->alamat }}"></td>
+                            <td><input type="text" name="notelp" id="notelp" class="form-control" value="{{ $darurat->notelp }}"></td>
+                            <td><input type="text" name="hubungan" id="hubungan" class="form-control" value="{{ $darurat->hubungan }}"></td>
+                            <td><button type="submit" class="btn btn-warning">Ubah</button></td>
                         </tr>
+                    </form>
+                    @endforeach
+                    <form action="{{ route('user.savedatadarurat') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="keterangan" value="tambah">
                         <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
+                            <td><input type="text" name="nama" id="nama" class="form-control"></td>
+                            <td><input type="text" name="alamat" id="alamat" class="form-control"></td>
+                            <td><input type="text" name="notelp" id="notelp" class="form-control"></td>
+                            <td><input type="text" name="hubungan" id="hubungan" class="form-control"></td>
+                            <td><button type="submit" class="btn btn-success">Tambah</button></td>
                         </tr>
-                    </table>
-                </div>
+                    </form>
+                </table>
             </div>
         </div>
     </div>
+</div>
 </div>
 <script>
     document.getElementById('status2').onchange = function() {

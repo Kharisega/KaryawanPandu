@@ -30,11 +30,15 @@ class KaryawanController extends Controller
         $pengalaman_organisasi = DB::table('table_pengalaman_organisasi')->where('nama_karyawan', auth()->user()->name)->get();
         $pengalaman_kerja = DB::table('table_pengalaman_kerja')->where('nama_karyawan', auth()->user()->name)->get();
         $bahasa = DB::table('table_bahasa')->where('nama_karyawan', auth()->user()->name)->get();
+        $minat = DB::table('table_minat')->where('nama_karyawan', auth()->user()->name)->get();
+        $lainnya = DB::table('table_lainnya')->where('nama_karyawan', auth()->user()->name)->get();
+        $nomor_darurat = DB::table('table_nomor_darurat')->where('nama_karyawan', auth()->user()->name)->get();
+        $aktivitas_sosial = DB::table('table_aktivitas_sosial')->where('nama_karyawan', auth()->user()->name)->get();
         $pasfoto = DB::table('table_pasfoto')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotoserbadan = DB::table('table_foto_set_badan')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotoktp = DB::table('table_fotoktp')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
         $fotokk = DB::table('table_fotokk')->where('nama_karyawan', auth()->user()->name)->value('namagambar');
-        // dd(count($pendidikan_formal) == 0);
+        // dd($minat);
 
         return view('user.data', [
             'data' => $data,
@@ -45,6 +49,10 @@ class KaryawanController extends Controller
             'fotokk' => $fotokk,
             'anak' => $anak,
             'bahasa' => $bahasa,
+            'minat' => $minat,
+            'lainnya' => $lainnya,
+            'aktivitas_sosial' => $aktivitas_sosial,
+            'nomor_darurat' => $nomor_darurat,
             'suskel' => $susunan_keluarga,
             'pendidikan_formal' => $pendidikan_formal,
             'pendidikan_nonformal1' => $pendidikan_nonformal1,
@@ -505,6 +513,100 @@ class KaryawanController extends Controller
             $insert1 = DB::table('table_pengalaman_kerja')->insert($data);
         } else {
             $insert1 = DB::table('table_pengalaman_kerja')->where('nama_karyawan', $nama_karyawan)->where('id_pengalaman', $request->id_pengalaman)->update($data);
+        }
+
+        return redirect()->back();
+    }
+
+    public function minat(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+        $data = [
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'alasan' => $request->alasan,
+            'pengetahuan' => $request->pengetahuan,
+            'gaji' => $request->gaji,
+            'fasilitas1' => $request->fasilitas1,
+            'fasilitas2' => $request->fasilitas2,
+            'fasilitas3' => $request->fasilitas3,
+            'fasilitas4' => $request->fasilitas4,
+            'mulaikerja' => $request->mulaikerja,
+        ];
+
+        $check = DB::table('table_minat')->where('nama_karyawan', $nama_karyawan)->get();
+        if (count($check) == 0) {
+            $insert1 = DB::table('table_minat')->insert($data);
+        } else {
+            $insert1 = DB::table('table_minat')->where('nama_karyawan', $nama_karyawan)->update($data);
+        }
+
+        return redirect()->back();
+    }
+
+    public function aktivitasSosial(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+        $data = [
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'hobi' => $request->hobi,
+            'waktuluang' => $request->waktuluang,
+            'membaca' => $request->membaca,
+            'topik' => $request->topik,
+        ];
+
+        $check = DB::table('table_aktivitas_sosial')->where('nama_karyawan', $nama_karyawan)->get();
+        if (count($check) == 0) {
+            $insert1 = DB::table('table_aktivitas_sosial')->insert($data);
+        } else {
+            $insert1 = DB::table('table_aktivitas_sosial')->where('nama_karyawan', $nama_karyawan)->update($data);
+        }
+
+        return redirect()->back();
+    }
+
+    public function lainnya(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+        $data = [
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'kekuatan' => $request->kekuatan,
+            'kelemahan' => $request->kelemahan,
+        ];
+
+        $check = DB::table('table_lainnya')->where('nama_karyawan', $nama_karyawan)->get();
+        if (count($check) == 0) {
+            $insert1 = DB::table('table_lainnya')->insert($data);
+        } else {
+            $insert1 = DB::table('table_lainnya')->where('nama_karyawan', $nama_karyawan)->update($data);
+        }
+
+        return redirect()->back();
+    }
+
+    public function nomorDarurat(Request $request)
+    {
+        $id_karyawan = DB::table('users')->where('name', auth()->user()->name)->value('id');
+        $nama_karyawan = auth()->user()->name;
+
+        $data = [
+            'id_karyawan' => $id_karyawan,
+            'nama_karyawan' => $nama_karyawan,
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'notelp' => $request->notelp,
+            'hubungan' => $request->hubungan,
+        ];
+
+        if ($request->keterangan == 'tambah') {
+            $insert1 = DB::table('table_nomor_darurat')->insert($data);
+        } else {
+            $insert1 = DB::table('table_nomor_darurat')->where('nama_karyawan', $nama_karyawan)->where('id_darurat', $request->id_darurat)->update($data);
         }
 
         return redirect()->back();
