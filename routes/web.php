@@ -21,9 +21,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin', function () {
-    return view('admin.index');
-})->name('admin');
+// Route::get('/admin', function () {
+//     return view('admin.index');
+// })->name('admin');
 
 Route::get('/user', function () {
     return view('user.index');
@@ -47,3 +47,7 @@ Route::post('user/data/minat/save', 'KaryawanController@minat')->name('user.save
 Route::post('user/data/sosial/save', 'KaryawanController@aktivitasSosial')->name('user.savedatasosial');
 Route::post('user/data/lainnya/save', 'KaryawanController@lainnya')->name('user.savedatalainnya');
 Route::post('user/data/darurat/save', 'KaryawanController@nomorDarurat')->name('user.savedatadarurat');
+
+Route::get('admin/', 'AdminController@index')->name('admin');
+
+Route::post('/admin/data/{id_karyawan}', 'AdminController@lihatData')->name('admin.data');
