@@ -851,9 +851,9 @@
                         </tr>
                         @foreach ($pengalaman_organisasi as $peng_orga)
                         <form action="{{ route('user.savedataorganisasi') }}" method="post">
+                            @csrf
                             <input type="hidden" name="keterangan" value="ubah">
                             <input type="hidden" name="id_organisasi" value="{{ $peng_orga->id_organisasi }}">
-                            @csrf
                             <tr>
                                 <td><input type="text" name="nama_organisasi" id="nama_organisasi" class="form-control" value="{{ $peng_orga->nama_organisasi }}"></td>
                                 <td><input type="text" name="jabatan" id="jabatan" class="form-control" value="{{ $peng_orga->jabatan }}"></td>

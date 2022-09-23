@@ -42,26 +42,9 @@ class AdminController extends Controller
         $fotoserbadan = DB::table('table_foto_set_badan')->where('nama_karyawan', $nama_karyawan)->value('namagambar');
         $fotoktp = DB::table('table_fotoktp')->where('nama_karyawan', $nama_karyawan)->value('namagambar');
         $fotokk = DB::table('table_fotokk')->where('nama_karyawan', $nama_karyawan)->value('namagambar');
-        dd($data,
-        $keluarga,
-        $pasfoto,
-        $fotoserbadan,
-        $fotoktp,
-        $fotokk,
-        $anak,
-        $bahasa,
-        $minat,
-        $lainnya,
-        $aktivitas_sosial,
-        $nomor_darurat,
-        $susunan_keluarga,
-        $pendidikan_formal,
-        $pendidikan_nonformal1,
-        $pendidikan_nonformal2,
-        $pengalaman_organisasi,
-        $pengalaman_kerja,);
+        // dd($data, $keluarga, $pasfoto, $fotoserbadan, $fotoktp, $fotokk, $anak, $bahasa, $minat, $lainnya, $aktivitas_sosial, $nomor_darurat, $susunan_keluarga, $pendidikan_formal, $pendidikan_nonformal1, $pendidikan_nonformal2, $pengalaman_organisasi, $pengalaman_kerja,);
 
-        return view('user.data', [
+        return view('admin.data', [
             'data' => $data,
             'keluarga' => $keluarga,
             'pasfoto' => $pasfoto,
