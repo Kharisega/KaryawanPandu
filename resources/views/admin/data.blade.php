@@ -1,6 +1,51 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    .button {
+        position: fixed;
+        left: 95%;
+        top: 90%;
+        z-index: 1;
+        border-radius: 50px;
+        width: 50px;
+        height: 50px;
+        border: none;
+    }
+
+    .skyblue {
+        background-color: skyblue;
+    }
+
+    .green {
+        background-color: lightgreen;
+    }
+
+    .print {
+        top: 70% !important;
+        padding-top: 12.5px;
+    }
+
+    a, a:hover, a:focus, a:active {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .up {
+        top: 80% !important;
+    }
+
+</style>
+<div><center>@method('POST')<a class="button skyblue print" href="{{ route('admin.cetak', $data[0]->nama_lengkap) }}" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+            <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z" />
+            <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+        </svg></a></center></div>
+<div><button class="button green up" onclick="scrollUpWin()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+        </svg></button></div>
+<div><button class="button green" onclick="scrollDownWin()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" />
+        </svg></button></div>
 <div class="container">
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -97,9 +142,9 @@
                             <div class="col col-sm-1">:</div>
                             <div class="col text">
                                 @if (isset($data[0]->nickname))
-                                    {{ $data[0]->nickname }}
+                                {{ $data[0]->nickname }}
 
-                                    @endif
+                                @endif
                             </div>
                         </div>
                         <div class="row" style="margin-bottom:10px">
@@ -849,25 +894,25 @@
 
                 <div class="card-body">
 
-                        <div class="col">
-                            <div class="row mb-2">
-                                <label class="form-label" for="hobi">1. Apakah hobby / kegemaran Saudara?</label>
-                                <textarea name="hobi" id="hobi" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($aktivitas_sosial[0]->hobi)) {{ $aktivitas_sosial[0]->hobi }} @endif</textarea>
-                            </div>
-                            <div class="row mb-2">
-                                <label class="form-label" for="waktuluang">2. Bagaimana cara Saudara mengisi waktu luang?</label>
-                                <textarea name="waktuluang" id="waktuluang" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($aktivitas_sosial[0]->waktuluang)) {{ $aktivitas_sosial[0]->waktuluang }} @endif</textarea>
-                            </div>
-                            <div class="row mb-2">
-                                <label class="form-label" for="membaca">3. a. Surat kabar, majalah atau buku-buku apakah yang Saudara baca? Jelaskan.</label>
-                                <textarea name="membaca" id="membaca" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($aktivitas_sosial[0]->membaca)) {{ $aktivitas_sosial[0]->membaca }} @endif</textarea>
-                            </div>
-                            <div class="row mb-2">
-                                <label class="form-label" for="topik">3. b. Pokok-pokok / topik-topik apakah yang paling Saudara senangi? Jelaskan</label>
-                                <textarea name="topik" id="topik" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($aktivitas_sosial[0]->topik)) {{ $aktivitas_sosial[0]->topik }} @endif</textarea>
-                            </div>
-
+                    <div class="col">
+                        <div class="row mb-2">
+                            <label class="form-label" for="hobi">1. Apakah hobby / kegemaran Saudara?</label>
+                            <textarea name="hobi" id="hobi" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($aktivitas_sosial[0]->hobi)) {{ $aktivitas_sosial[0]->hobi }} @endif</textarea>
                         </div>
+                        <div class="row mb-2">
+                            <label class="form-label" for="waktuluang">2. Bagaimana cara Saudara mengisi waktu luang?</label>
+                            <textarea name="waktuluang" id="waktuluang" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($aktivitas_sosial[0]->waktuluang)) {{ $aktivitas_sosial[0]->waktuluang }} @endif</textarea>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="form-label" for="membaca">3. a. Surat kabar, majalah atau buku-buku apakah yang Saudara baca? Jelaskan.</label>
+                            <textarea name="membaca" id="membaca" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($aktivitas_sosial[0]->membaca)) {{ $aktivitas_sosial[0]->membaca }} @endif</textarea>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="form-label" for="topik">3. b. Pokok-pokok / topik-topik apakah yang paling Saudara senangi? Jelaskan</label>
+                            <textarea name="topik" id="topik" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($aktivitas_sosial[0]->topik)) {{ $aktivitas_sosial[0]->topik }} @endif</textarea>
+                        </div>
+
+                    </div>
 
                 </div>
             </div>
@@ -877,17 +922,17 @@
 
                 <div class="card-body">
 
-                        <div class="col">
-                            <div class="row mb-2">
-                                <label class="form-label" for="hobi">1. a. Faktor-faktor apakah yang merupakan kekuatan bagi diri Saudara?</label>
-                                <textarea name="kekuatan" id="kekuatan" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($lainnya[0]->kekuatan)) {{ $lainnya[0]->kekuatan }} @endif</textarea>
-                            </div>
-                            <div class="row mb-2">
-                                <label class="form-label" for="waktuluang">b. Faktor-faktor apakah yang Saudara rasakan merupakan kelemahan bagi diri Saudara?</label>
-                                <textarea name="kelemahan" id="kelemahan" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($lainnya[0]->kelemahan)) {{ $lainnya[0]->kelemahan }} @endif</textarea>
-                            </div>
-
+                    <div class="col">
+                        <div class="row mb-2">
+                            <label class="form-label" for="hobi">1. a. Faktor-faktor apakah yang merupakan kekuatan bagi diri Saudara?</label>
+                            <textarea name="kekuatan" id="kekuatan" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($lainnya[0]->kekuatan)) {{ $lainnya[0]->kekuatan }} @endif</textarea>
                         </div>
+                        <div class="row mb-2">
+                            <label class="form-label" for="waktuluang">b. Faktor-faktor apakah yang Saudara rasakan merupakan kelemahan bagi diri Saudara?</label>
+                            <textarea name="kelemahan" id="kelemahan" cols="30" rows="10" style="height: 100px" class="form-control" disabled>@if(isset($lainnya[0]->kelemahan)) {{ $lainnya[0]->kelemahan }} @endif</textarea>
+                        </div>
+
+                    </div>
 
                 </div>
             </div>
@@ -905,12 +950,12 @@
 
                         </tr>
                         @foreach($nomor_darurat as $key => $darurat)
-                            <tr>
-                                <td>{{ $darurat->nama }}</td>
-                                <td>{{ $darurat->alamat }}</td>
-                                <td>{{ $darurat->notelp }}</td>
-                                <td>{{ $darurat->hubungan }}</td>
-                            </tr>
+                        <tr>
+                            <td>{{ $darurat->nama }}</td>
+                            <td>{{ $darurat->alamat }}</td>
+                            <td>{{ $darurat->notelp }}</td>
+                            <td>{{ $darurat->hubungan }}</td>
+                        </tr>
                         @endforeach
 
                     </table>
@@ -927,6 +972,14 @@
             document.getElementById('tglnikah').style.display = 'none';
         }
     };
+
+    function scrollDownWin() {
+        window.scrollBy(0, 100);
+    }
+
+    function scrollUpWin() {
+        window.scrollBy(0, -100);
+    }
 
 </script>
 @endsection

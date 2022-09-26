@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    protected $data1;
+
+    function __construct() {
+            $this->data1 = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->leftJoin('table_pasfoto', 'users.id', '=', 'table_pasfoto.id_karyawan')
+            ->where('roles.id', 2)
+            ->select('users.name', 'users.email', 'users.id', 'table_pasfoto.namagambar')
+            ->get();
+    }
+
     public function index()
     {
         $data = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -16,9 +27,35 @@ class AdminController extends Controller
         ->where('roles.id', 2)
         ->select('users.name', 'users.email', 'users.id', 'table_pasfoto.namagambar')
         ->get();
-        // dd($data[1]->namagambar);
 
-        return view('admin.index', compact('data'));
+        $data1 = $this->data1;
+
+        return view('admin.index', compact('data', 'data1'));
+    }
+
+    public function search(Request $request)
+    {
+        $data = User::join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+        ->leftJoin('table_pasfoto', 'users.id', '=', 'table_pasfoto.id_karyawan')
+        ->where('roles.id', 2)
+        ->where('users.name','like',"%".$request->search."%")
+        ->select('users.name', 'users.email', 'users.id', 'table_pasfoto.namagambar')
+        ->get();
+
+        $data1 = $this->data1;
+
+        return view('admin.index', compact('data', 'data1'));
+    }
+
+    public function cetak($nama_karyawan)
+    {
+        $pasfoto = DB::table('table_pasfoto')->where('nama_karyawan', $nama_karyawan)->value('namagambar');
+        $fotofulbadan = DB::table('table_foto_set_badan')->where('nama_karyawan', $nama_karyawan)->value('namagambar');
+        $fotoktp = DB::table('table_fotoktp')->where('nama_karyawan', $nama_karyawan)->value('namagambar');
+        $fotokk = DB::table('table_fotokk')->where('nama_karyawan', $nama_karyawan)->value('namagambar');
+
+        return view('admin.cetak', compact('pasfoto', 'fotofulbadan', 'fotoktp', 'fotokk'));
     }
 
     public function lihatData(Request $request)
@@ -45,6 +82,7 @@ class AdminController extends Controller
         // dd($data, $keluarga, $pasfoto, $fotoserbadan, $fotoktp, $fotokk, $anak, $bahasa, $minat, $lainnya, $aktivitas_sosial, $nomor_darurat, $susunan_keluarga, $pendidikan_formal, $pendidikan_nonformal1, $pendidikan_nonformal2, $pengalaman_organisasi, $pengalaman_kerja,);
 
         return view('admin.data', [
+            'id_karyawan' => $request->id_karyawan,
             'data' => $data,
             'keluarga' => $keluarga,
             'pasfoto' => $pasfoto,
@@ -65,4 +103,6 @@ class AdminController extends Controller
             'pengalaman_kerja' => $pengalaman_kerja,
         ]);
     }
+
+
 }

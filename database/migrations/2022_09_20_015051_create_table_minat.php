@@ -20,10 +20,10 @@ class CreateTableMinat extends Migration
             $table->text('alasan');
             $table->text('pengetahuan');
             $table->string('gaji');
-            $table->string('fasilitas1');
-            $table->string('fasilitas2');
-            $table->string('fasilitas3');
-            $table->string('fasilitas4');
+            $table->string('fasilitas1')->nullable();
+            $table->string('fasilitas2')->nullable();
+            $table->string('fasilitas3')->nullable();
+            $table->string('fasilitas4')->nullable();
             $table->string('mulaikerja');
             $table->timestamps();
         });
